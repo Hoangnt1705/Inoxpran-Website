@@ -47,6 +47,7 @@ checkOverload();
 
 // Global JSON parser for the rest of the API
 app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' })); 
 
 // Rate limit (general) for normal API traffic
 // app.use(rateLimitCommon);

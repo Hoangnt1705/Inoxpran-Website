@@ -2,7 +2,7 @@
 
 const { verify } = require('jsonwebtoken');
 // !dmbg
-const mongoose = require('mongoose');
+const {model, Schema, Types} = require('mongoose');
 
 const DOCUMENT_NAME = 'Shop';
 const COLLECTION_NAME = 'Shops'
@@ -44,4 +44,4 @@ const shopSchema = new Schema({
 
 //Export the model
 
-module.exports = mongoose.model(DOCUMENT_NAME, shopSchema);
+module.exports = model(DOCUMENT_NAME, shopSchema);

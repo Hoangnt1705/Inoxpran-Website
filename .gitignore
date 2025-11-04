@@ -9,9 +9,9 @@ pnpm-lock.yaml
 yarn.lock
 
 # Env & secrets
-.env
-.env.*
-!.env.example
+# .env
+# .env.*
+# !.env.example
 
 # Logs
 logs/
