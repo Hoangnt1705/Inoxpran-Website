@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>FullPage Scroll Responsive</title>
+
+    <!-- fullPage.js -->
+    <script
+        src="https://nicolaipalmkvist.com/wp-content/cache/min/1/ajax/libs/fullPage.js/3.1.2/fullpage.min.js?ver=1759923533"
+        defer></script>
+
+    <!-- GSAP -->
+    <script src="https://nicolaipalmkvist.com/wp-content/cache/min/1/ajax/libs/gsap/3.11.3/gsap.min.js?ver=1759923533"
+        defer></script>
+
+    <!-- fullPage CSS -->
+    <link rel="stylesheet"
+        href="https://nicolaipalmkvist.com/wp-content/cache/min/1/ajax/libs/fullPage.js/3.1.2/fullpage.min.css?ver=1760003640" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                sans-serif;
+            overflow: hidden;
+        }
+
+        /* Sections */
+        .section {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            /* bottom on desktop */
+            align-items: flex-start;
+            /* left on desktop */
+            height: 100vh;
+            text-align: left;
+            font-size: 6rem;
+            overflow: hidden;
+            position: relative;
+            padding: 4rem 10rem;
+        }
+
+        h1 {
+            color: black;
+            opacity: 1;
+            margin-bottom: 20px;
+            /* responsive font size */
+            font-size: clamp(2.4rem, 6vw, 4.5rem);
+        }
+
+        /* Line under heading */
+        .line {
+            height: 3px;
+            width: 150px;
+            background-color: #000;
+            margin-top: 10px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 300px;
+            z-index: 10;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f1f1f1;
+            white-space: nowrap;
+        }
+
+        .navbar .links {
+            display: flex;
+            white-space: nowrap;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .navbar .links a {
+            text-decoration: none;
+            font-size: 0.95rem;
+            color: #f1f1f1;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .navbar .links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Scroll text styling */
+        .scroll-text {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-size: 1.1rem;
+            color: #f1f1f1;
+            opacity: 0.8;
+            z-index: 5;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+        }
+
+        .scroll-text.left {
+            left: 20px;
+        }
+
+        .scroll-text.right {
+            right: 20px;
+        }
+
+        .scroll-text h2 {
+            margin: 0;
+            font-size: inherit;
+            font-weight: 400;
+        }
+
+        /* fullPage internal cell */
+        .fp-tableCell {
+            display: table-cell;
+            vertical-align: middle;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ===========================
+         RESPONSIVE
+      ============================ */
+
+        /* Tablet and below */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 8px 16px;
+            }
+
+            .navbar .logo {
+                font-size: 1.2rem;
+            }
+
+            .navbar .links a {
+                font-size: 0.8rem;
+            }
+
+            .section {
+                padding: 3rem 2rem;
+            }
+
+            .line {
+                width: 120px;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            body {
+                overflow: hidden;
+                /* fullPage manages scroll */
+            }
+
+            .navbar {
+                padding: 8px 12px;
+                gap: 8px;
+            }
+
+            .navbar .logo {
+                font-size: 1.1rem;
+            }
+
+            .navbar .links {
+                gap: 0.7rem;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            .navbar .links a {
+                font-size: 0.75rem;
+                letter-spacing: 0.05em;
+            }
+
+            .section {
+                padding: 2.5rem 1.5rem;
+                justify-content: center;
+                /* center on mobile */
+                align-items: center;
+                /* center text */
+                text-align: center;
+            }
+
+            h1 {
+                margin-bottom: 16px;
+                font-size: clamp(1.8rem, 7vw, 2.4rem);
+            }
+
+            .line {
+                margin-left: auto;
+                margin-right: auto;
+                width: 90px;
+            }
+
+            /* Hide side scroll text on small screens */
+            .scroll-text {
+                display: none;
+            }
+        }
+
+        /* Very small phones */
+        @media (max-width: 480px) {
+            .navbar .links {
+                justify-content: center;
+            }
+
+            .section {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: clamp(1.6rem, 8vw, 2.1rem);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h2 class="logo">MyBrand</h2>
+        <div class="links">
+            <a href="#" id="link1">Intro</a>
+            <a href="#" id="link2">About</a>
+            <a href="#" id="link3">Work</a>
+            <a href="#" id="link4">Contact</a>
+        </div>
+    </div>
+
+    <!-- Scroll hints (desktop only via CSS) -->
+    <div class="scroll-text left">
+        <h2>KÉO XUỐNG</h2>
+    </div>
+    <div class="scroll-text right">
+        <h2>KÉO XUỐNG</h2>
+    </div>
+
+    <!-- Fullpage container -->
+    <div id="fullpage" class="">
+        <!-- Section 1 -->
+        <div class="section" data-bg="#000000" data-text-color="#f1f1f1" data-anchor="intro">
+            <h1>Intro</h1>
+            <div class="line"></div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="section" data-bg="#ffffff" data-text-color="#000000" data-anchor="about">
+            <h1>About</h1>
+            <div class="line"></div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="section" data-bg="#101820" data-text-color="#f5f5f5" data-anchor="work">
+            <h1>Work</h1>
+            <div class="line"></div>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="section" data-bg="#f4ede1" data-text-color="#222222" data-anchor="contact">
+            <h1>Contact</h1>
+            <div class="line"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fullpageInstance = new fullpage('#fullpage', {
+                scrollingSpeed: 1000,
+                autoScrolling: true,
+                scrollHorizontally: true,
+                navigation: false,
+                anchors: ['intro', 'about', 'work', 'contact'],
+                afterLoad: function (origin, destination, direction) {
+                    // origin is null on first load
+                    if (!origin && destination.index === 0) {
+                        const section = destination.item;
+                        const enteringText = section.querySelector('h1');
+                        const line = section.querySelector('.line');
+                        const navbarText = document.querySelectorAll(
+                            '.navbar a, .navbar h2'
+                        );
+                        const scrollTexts = document.querySelectorAll('.scroll-text h2');
+
+                        const newBgColor = section.getAttribute('data-bg');
+                        const newTextColor = section.getAttribute('data-text-color');
+
+                        // set initial background
+                        section.style.backgroundColor = newBgColor;
+
+                        // animate title from bottom → up
+                        if (enteringText) {
+                            gsap.fromTo(
+                                enteringText,
+                                { y: 100, opacity: 0 },
+                                {
+                                    y: 0,
+                                    opacity: 1,
+                                    color: newTextColor,
+                                    duration: 1.2,
+                                    ease: 'power2.out',
+                                    delay: 0.3
+                                }
+                            );
+                        }
+
+                        // animate line
+                        if (line) {
+                            gsap.fromTo(
+                                line,
+                                { width: 0, backgroundColor: newTextColor },
+                                {
+                                    width: '150px',
+                                    duration: 1.5,
+                                    ease: 'power2.out',
+                                    delay: 0.4
+                                }
+                            );
+                        }
+
+                        // navbar + scroll text color
+                        gsap.to(navbarText, { color: newTextColor, duration: 0.5 });
+                        gsap.to(scrollTexts, { color: newTextColor, duration: 0.5 });
+                    }
+                },
+                onLeave: function (origin, destination, direction) {
+                    const leavingText = origin.item.querySelector('h1');
+                    const enteringText = destination.item.querySelector('h1');
+                    const line = destination.item.querySelector('.line');
+                    const navbarText = document.querySelectorAll(
+                        '.navbar a, .navbar h2'
+                    );
+                    const scrollTexts = document.querySelectorAll('.scroll-text h2');
+
+                    // animate leaving section title
+                    if (leavingText) {
+                        gsap.to(leavingText, {
+                            opacity: 0,
+                            y: -100,
+                            duration: 1.0,
+                            ease: 'power2.out'
+                        });
+                    }
+
+                    // animate entering section title
+                    if (enteringText) {
+                        gsap.fromTo(
+                            enteringText,
+                            { y: 100, opacity: 0 },
+                            {
+                                y: 0,
+                                opacity: 1,
+                                color: destination.item.getAttribute('data-text-color'),
+                                duration: 1.2,
+                                ease: 'power2.out',
+                                delay: 0.3
+                            }
+                        );
+                    }
+
+                    const newBgColor = destination.item.getAttribute('data-bg');
+                    const newTextColor =
+                        destination.item.getAttribute('data-text-color');
+
+                    // background color of section
+                    destination.item.style.backgroundColor = newBgColor;
+
+                    // change colors for line, navbar and scroll texts
+                    if (line) {
+                        gsap.to(line, {
+                            backgroundColor: newTextColor,
+                            duration: 0.5
+                        });
+                    }
+                    gsap.to(navbarText, { color: newTextColor, duration: 0.5 });
+                    gsap.to(scrollTexts, { color: newTextColor, duration: 0.5 });
+
+                    // line width animation (still works, just base)
+                    const newLineWidth = (destination.index + 1) * 150;
+                    const currentLineWidth = (origin.index + 1) * 150;
+
+                    if (direction === 'down') {
+                        if (line) {
+                            gsap.to(line, {
+                                width: newLineWidth + 'px',
+                                duration: 1.5,
+                                ease: 'power2.out'
+                            });
+                        }
+                    } else {
+                        if (line) {
+                            gsap.to(line, {
+                                width: currentLineWidth + 'px',
+                                duration: 1.5,
+                                ease: 'power2.out'
+                            });
+                        }
+                    }
+                }
+            });
+
+            // Navbar links → scroll to section
+            document.getElementById('link1').addEventListener('click', function (e) {
+                e.preventDefault();
+                fullpageInstance.moveTo(1);
+            });
+            document.getElementById('link2').addEventListener('click', function (e) {
+                e.preventDefault();
+                fullpageInstance.moveTo(2);
+            });
+            document.getElementById('link3').addEventListener('click', function (e) {
+                e.preventDefault();
+                fullpageInstance.moveTo(3);
+            });
+            document.getElementById('link4').addEventListener('click', function (e) {
+                e.preventDefault();
+                fullpageInstance.moveTo(4);
+            });
+        });
+    </script>
+</body>
+<div class="hero-visual">
+    <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="steelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#e5e7eb" />
+                <stop offset="35%" stop-color="#9ca3af" />
+                <stop offset="70%" stop-color="#4b5563" />
+                <stop offset="100%" stop-color="#e5e7eb" />
+            </linearGradient>
+        </defs>
+
+        <!-- main ring -->
+        <circle id="heroRing" cx="130" cy="130" r="100" />
+        <circle id="heroInnerCircle" cx="130" cy="130" r="68" />
+
+        <!-- morphable cookware shape -->
+        <!-- <path id="heroShape" d="M70 130 Q 130 90 190 130 L 180 160 Q 130 190 80 160 Z" /> -->
+        <!-- pot state -->
+        <path id="shapePot" style="visibility: hidden" d="M70 135 Q 130 100 190 135 L 190 170 Q 130 200 70 170 Z" />
+
+        <!-- pan state -->
+        <path id="shapePan" style="visibility: hidden" d="M60 145 Q 130 120 200 145 L 200 165 Q 130 190 60 165 Z" />
+
+        <!-- motion path for icon -->
+        <path id="motionPath"
+            d="M60,60 C 110,20 150,20 200,60 C 220,80 220,100 200,120 C 150,160 110,160 60,120 C 40,100 40,80 60,60 Z"
+            fill="none" stroke="transparent" />
+
+        <!-- small round icon following path -->
+        <!-- <circle id="motionIcon" class="motion-icon" cx="60" cy="60" r="9" /> -->
+    </svg>
+</div>
+</html>

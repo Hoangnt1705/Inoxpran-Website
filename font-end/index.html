@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Inox Cookware – Stainless Steel Home</title>
+
+    <!-- GSAP core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+
+    <!-- GSAP official plugins on cdnjs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js" defer></script>
+
+    <!-- Club / bonus plugins (demo-style URLs; replace with your own files in production) -->
+    <script src="https://assets.codepen.io/16327/ScrollSmoother.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js" defer></script>
+    <script src="https://assets.codepen.io/16327/SplitText3.min.js" defer></script>
+    <script src="https://assets.codepen.io/16327/ScrambleTextPlugin3.min.js" defer></script>
+    <script src="https://assets.codepen.io/16327/DrawSVGPlugin3.min.js" defer></script>
+    <script src="https://assets.codepen.io/16327/MorphSVGPlugin3.min.js" defer></script>
+    <script src="https://assets.codepen.io/16327/Flip.min.js" defer></script>
+    <script src="https://assets.codepen.io/16327/Draggable3.min.js" defer></script>
+    <script src="https://assets.codepen.io/16327/InertiaPlugin.min.js" defer></script>
+    <script src="https://assets.codepen.io/16327/Observer.min.js" defer></script>
+    <script src="https://assets.codepen.io/16327/ScrambleTextPlugin3.min.js" defer></script>
+
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/utm-avo');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --steel-bg: radial-gradient(circle at top left,
+                    #f9fafb,
+                    #e5e7eb,
+                    #d1d5db,
+                    #9ca3af,
+                    #6b7280);
+            --charcoal-blue: #0f172a;
+            --accent-gold: #facc15;
+            --accent-soft: #38bdf8;
+            --white-milk: #f1f2f3
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body {
+            font-family: "UTM Avo", sans-serif;
+            /* Use "UTM Avo" or the specific font family name */
+            background: var(--steel-bg);
+            color: var(--charcoal-blue);
+            overflow-x: hidden;
+
+        }
+
+        /* ScrollSmoother wrapper */
+        #smooth-wrapper {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #smooth-content {
+            position: relative;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            inset: 0 0 auto 0;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3.5rem;
+            z-index: 50;
+            backdrop-filter: blur(14px);
+            background: linear-gradient(to bottom,
+                    rgba(248, 250, 252, 0.86),
+                    rgba(248, 250, 252, 0.75),
+                    transparent);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+            transform: translateY(0);
+        }
+
+        .navbar .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--charcoal-blue);
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .navbar .logo>#img-logo {
+            width: 250px;
+        }
+
+        .navbar .links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .navbar .links a {
+            text-decoration: none;
+            color: var(--charcoal-blue);
+            opacity: 0.82;
+            position: relative;
+        }
+
+        .navbar .links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            height: 1px;
+            width: 0;
+            background: var(--charcoal-blue);
+            transition: width 0.25s ease;
+        }
+
+        .navbar .links a:hover::after {
+            width: 100%;
+        }
+
+        /* Make navbar links ready for stacked text animation */
+        .navbar .links a.nav-link-anim {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        /* Both label variants */
+        .navbar .links a.nav-link-anim .nav-label {
+            display: block;
+            white-space: nowrap;
+        }
+
+        /* Normal text – visible by default */
+        .navbar .links a.nav-link-anim .nav-label-normal {
+            transform: translateY(0%);
+            opacity: 1;
+        }
+
+        /* Italic text – starts below, hidden */
+        .navbar .links a.nav-link-anim .nav-label-italic {
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: translateY(100%);
+            opacity: 0;
+            font-style: italic;
+            /* slightly more spacing for style */
+        }
+
+        .hero-panel {
+            position: relative;
+            overflow: hidden;
+            /* để stove không tràn ra ngoài */
+        }
+
+        /* layer to hold the stove image */
+        .hero-stove-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            /* không chặn click của nội dung khác */
+        }
+
+        /* the stove image itself */
+        .hero-stove {
+            position: absolute;
+            width: min(720px, 70vw);
+            /* size responsive */
+            bottom: -30%;
+            /* start thấp hơn khung */
+            left: -20%;
+            /* lệch về trái (góc 8h) */
+            transform-origin: center center;
+        }
+
+        /* mobile tweak */
+        @media (max-width: 768px) {
+            .hero-stove {
+                width: 110vw;
+                bottom: -40%;
+                left: -30%;
+                opacity: 0.85;
+            }
+        }
+
+        /* Scroll hint */
+        .scroll-hint {
+            position: fixed;
+            right: 1.8rem;
+            bottom: 2.8rem;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--charcoal-blue);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .scroll-hint-line {
+            width: 40px;
+            height: 1px;
+            background: var(--charcoal-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-hint-line::before {
+            content: "";
+            position: absolute;
+            left: -40%;
+            top: 0;
+            width: 40%;
+            height: 100%;
+            background: var(--accent-soft);
+            animation: scrollHint 1.4s linear infinite;
+        }
+
+        @keyframes scrollHint {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(250%);
+            }
+        }
+
+        /* Panels / sections */
+        section.panel {
+            position: relative;
+            min-height: 100vh;
+            padding: 7rem 10vw 5rem 10vw;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+
+        .panel-bg {
+            position: absolute;
+            inset: 0;
+            /* top:0; right:0; bottom:0; left:0 */
+            width: 100%;
+            height: 100%;
+
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+        .panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,
+                    rgba(248, 250, 252, 0.8),
+                    rgba(209, 213, 219, 0.7),
+                    rgba(15, 23, 42, 0.5));
+            mix-blend-mode: multiply;
+            z-index: -1;
+        }
+
+        .panel-inner {
+            max-width: 505px;
+            z-index: 1;
+        }
+
+        .panel-title.hero-title {
+            position: relative;
+            display: inline-block;
+
+            /* main text color – charcoal blue like your theme */
+            color: var(--white-milk);
+
+            /* slanted shadow – down & right */
+            text-shadow:
+                -6px 6px 0 rgba(15, 23, 42, 0.07),
+                /* bóng cứng lệch trái */
+                -10px 16px 18px rgba(15, 23, 42, 0.09);
+            /* bóng mềm ngoài */
+        }
+
+
+
+        .panel-title {
+            font-size: clamp(2.6rem, 5vw, 3.8rem);
+            letter-spacing: 0.05em;
+            margin: 0 0 1rem 0;
+            color: var(--white-milk);
+
+        }
+
+        .panel-line {
+            height: 3px;
+            width: 140px;
+            /* độ dài line */
+            border-radius: 999px;
+
+            /* Cờ 3 màu: xanh – trắng – đỏ (blue, white, red) */
+            background: linear-gradient(90deg,
+                    green 0%,
+                    /* blue */
+                    #ffffff 50%,
+                    /* white */
+                    #ff0000 100%
+                    /* red */
+                );
+
+            /* rất quan trọng: scale từ bên trái */
+            transform-origin: left center;
+        }
+
+
+        .panel-subtitle {
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 460px;
+            height: 100px;
+            color: var(--white-milk);
+            text-shadow:
+                -2px 3px 0 rgba(15, 23, 42, 0.07),
+                /* bóng cứng lệch trái */
+                -4px 16px 18px rgba(15, 23, 42, 0.09);
+            /* bóng mềm ngoài */
+
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .tag {
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(15, 23, 42, 0.35);
+            background: rgba(248, 250, 252, 0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        .cta {
+            margin-top: 2rem;
+            padding: 0.9rem 2.2rem;
+            border-radius: 999px;
+            border: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg,
+                    #fbbf24,
+                    #facc15,
+                    #eab308);
+            color: #111827;
+            cursor: pointer;
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.35);
+        }
+
+        .cta:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.3);
+        }
+
+
+        /* HERO SVG ring + morph */
+        .hero-visual {
+            position: absolute;
+            right: 10vw;
+            top: 52%;
+            transform: translateY(-50%);
+            width: min(380px, 36vw);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-visual svg {
+            width: 100%;
+            height: auto;
+        }
+
+        #heroRing {
+            stroke: rgba(148, 163, 184, 0.9);
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+        }
+
+        #heroInnerCircle {
+            stroke: rgba(226, 232, 240, 0.95);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        #heroShape {
+            fill: url(#steelGradient);
+            stroke: rgba(15, 23, 42, 0.85);
+            stroke-width: 1.2;
+        }
+
+        /* Floating icon on motion path */
+        .motion-icon {
+            fill: #f8fafc;
+            stroke: rgba(15, 23, 42, 0.8);
+            stroke-width: 1.5;
+        }
+
+        /* Stats section */
+        .stats-row {
+            display: flex;
+            gap: 2.8rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            min-width: 130px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #1f2937;
+            margin-top: 0.4rem;
+        }
+
+        /* Collection cards + Flip filter */
+        .collection-panel {
+            align-items: flex-start;
+            padding-top: 8rem;
+        }
+
+        .collection-header {
+            margin-bottom: 1.2rem;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 0.7rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+        }
+
+
+        .filter-pill {
+            padding: 0.45rem 1.3rem;
+            border-radius: 999px;
+            border: 1px solid rgba(15, 23, 42, 0.28);
+            background: rgba(248, 250, 252, 0.9);
+            cursor: pointer;
+        }
+
+        .filter-pill.active {
+            background: var(--charcoal-blue);
+            color: #f9fafb;
+            border-color: var(--charcoal-blue);
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .collection-card {
+            position: relative;
+            padding: 1.3rem 1.3rem 1.4rem 1.3rem;
+            border-radius: 1.4rem;
+            background: rgba(248, 250, 252, 0.9);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.2);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .collection-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .collection-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .collection-meta {
+            font-size: 0.8rem;
+            color: #4b5563;
+            margin-bottom: 0.7rem;
+        }
+
+        .collection-price {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--charcoal-blue);
+        }
+
+        .collection-photo {
+            position: absolute;
+            right: -10%;
+            bottom: -10%;
+            width: 55%;
+            height: auto;
+            filter: drop-shadow(0 20px 30px rgba(15, 23, 42, 0.5));
+        }
+
+        /* Horizontal gallery pinned */
+        .gallery-panel {
+            padding-top: 7rem;
+        }
+
+        .gallery-viewport {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 2.2rem;
+        }
+
+        .gallery-track {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            min-width: min(360px, 70vw);
+            height: min(280px, 60vw);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-item::after {
+            content: attr(data-label);
+            position: absolute;
+            left: 1.2rem;
+            bottom: 1.1rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.78);
+            color: #f9fafb;
+        }
+
+        /* Draggable product strip */
+        .draggable-panel {
+            padding-top: 7rem;
+            align-items: stretch;
+        }
+
+        .draggable-viewport {
+            margin-top: 2rem;
+            overflow: hidden;
+            position: relative;
+            border-radius: 1.5rem;
+            background: rgba(15, 23, 42, 0.04);
+            border: 1px solid rgba(148, 163, 184, 0.45);
+        }
+
+        .draggable-track {
+            display: flex;
+            gap: 1.4rem;
+            padding: 1.2rem 1.4rem;
+            cursor: grab;
+        }
+
+        .draggable-card {
+            min-width: 220px;
+            max-width: 220px;
+            border-radius: 1.2rem;
+            background: rgba(248, 250, 252, 0.95);
+            padding: 1.1rem 1rem;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.2);
+        }
+
+        .draggable-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .draggable-desc {
+            font-size: 0.8rem;
+            color: #4b5563;
+            margin-bottom: 0.7rem;
+        }
+
+        .draggable-spec {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        /* Contact panel */
+        .contact-panel {
+            padding-bottom: 6rem;
+        }
+
+        .contact-form {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+            gap: 1.8rem;
+        }
+
+        .contact-form-left {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .field label {
+            color: #4b5563;
+        }
+
+        .field input,
+        .field textarea {
+            border-radius: 0.9rem;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            padding: 0.7rem 0.9rem;
+            font-size: 0.85rem;
+            font-family: inherit;
+            background: rgba(248, 250, 252, 0.95);
+        }
+
+        .field textarea {
+            min-height: 96px;
+            resize: vertical;
+        }
+
+        .contact-info {
+            font-size: 0.85rem;
+            color: #374151;
+            line-height: 1.7;
+            padding: 1.1rem 1.4rem;
+            border-radius: 1.4rem;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            background: rgba(248, 250, 252, 0.96);
+        }
+
+        .back-to-top {
+            margin-top: 1.4rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            cursor: pointer;
+            color: var(--charcoal-blue);
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 0 1.6rem;
+            }
+
+            section.panel {
+                padding: 7rem 6vw 4.5rem 6vw;
+            }
+
+            .hero-visual {
+                width: min(320px, 52vw);
+                right: 4vw;
+            }
+
+            .collection-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1.1rem;
+                height: 60px;
+            }
+
+            .navbar .logo {
+                font-size: 0.95rem;
+                letter-spacing: 0.12em;
+
+            }
+
+            .navbar .logo>#img-logo {
+
+                margin-left: -40px;
+
+            }
+
+
+            .navbar .links {
+                gap: 0.8rem;
+                font-size: 0.7rem;
+            }
+
+            section.panel {
+                padding: 6rem 1.5rem 3.5rem 1.5rem;
+                flex-direction: column;
+            }
+
+            .panel-inner {
+                max-width: 100%;
+            }
+
+            .hero-visual {
+                position: relative;
+                width: 80vw;
+                right: auto;
+                top: auto;
+                transform: none;
+                margin: 1.8rem auto 0;
+            }
+
+            .collection-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .contact-form {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .scroll-hint {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar .links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="./images/logo.png" alt="" id="img-logo">
+        </div>
+        <nav class="links">
+            <a href="#hero" data-scroll-to="#hero">Trang Chủ</a>
+            <a href="#inox" data-scroll-to="#inox">Giới Thiệu</a>
+            <a href="#experience" data-scroll-to="#experience">Shopping</a>
+            <a href="#contact" data-scroll-to="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+            <!-- Scroll hint -->
+            <div class="scroll-hint">
+                <span>Scroll</span>
+                <div class="scroll-hint-line"></div>
+            </div>
+
+            <main>
+                <!-- HERO PANEL -->
+            <section id="hero" class="panel hero-panel">
+                <!-- Wood floor background -->
+                <div class="panel-bg" style="background-image: url('./images/floor-bg.png');"></div>
+            
+                <!-- Stove parallax layer -->
+                <div class="hero-stove-layer">
+                    <img src="./images/bg-items-1.png" 
+                    alt="Stainless steel stove top"
+                    class="hero-stove"
+                    />
+                </div>
+            
+                <!-- Your text block (nếu có) -->
+                <!-- <div class="panel-inner hero-inner">...</div> -->
+            </section>
+
+                <!-- INOX MATERIAL PANEL + stats (ScrambleText) -->
+                <section id="inox" class="panel">
+                    <div class="panel-bg" style="background-image: url('./images/intro-bg.jpg');">
+                    </div>
+
+                    <div class="panel-inner">
+                        <h1 class="panel-title">Why Stainless Steel Inox?</h1>
+                        <div class="panel-line"></div>
+                        <p class="panel-subtitle">
+
+                            Inox 304 &amp; 316 an toàn cho sức khỏe, chống oxy hóa, không bám mùi và dễ vệ sinh.
+                            Đáy 3–5 lớp giúp giữ nhiệt đều, tiết kiệm năng lượng khi đun nấu.
+
+                        </p>
+
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div class="stat-number" id="stat-layers">3</div>
+                                <div class="stat-label">Lớp đáy truyền nhiệt</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="stat-grade">304</div>
+                                <div class="stat-label">Inox thực phẩm</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="stat-warranty">10</div>
+                                <div class="stat-label">Năm bảo hành thân nồi</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- COLLECTION PANEL with Flip filters -->
+                <section id="collections" class="panel collection-panel">
+                    <div class="panel-bg" style="background-image: url('./images/14.jpg');">
+                    </div>
+
+                    <div class="panel-inner collection-header">
+                        <h1 class="panel-title">Signature Collections</h1>
+                        <div class="panel-line"></div>
+                        <p class="panel-subtitle">
+                            Từ bộ nồi inox đa tầng, chảo chống dính đáy từ đến nồi gang tráng men –
+                            tất cả đều tối ưu cho bếp gia đình hiện đại.
+                        </p>
+
+                        <div class="filter-row" id="collection-filters">
+                            <div class="filter-pill active" data-filter="all">Tất cả</div>
+                            <div class="filter-pill" data-filter="pot">Nồi inox</div>
+                            <div class="filter-pill" data-filter="pan">Chảo</div>
+                            <div class="filter-pill" data-filter="cast">Nồi gang</div>
+                        </div>
+                    </div>
+
+                    <div class="collection-grid" id="collection-grid">
+                        <!-- card 1 -->
+                        <article class="collection-card" data-type="pot">
+                            <div class="collection-tag">Nồi Inox 5 đáy</div>
+                            <div class="collection-title">Aurora Premium Pot Set</div>
+                            <div class="collection-meta">Đáy 5 lớp – sử dụng cho mọi loại bếp, tay cầm cách nhiệt.</div>
+                            <div class="collection-price">Từ 1.290.000đ</div>
+                            <img class="collection-photo" src="./images/6.jpg" alt="Aurora Pot" />
+                        </article>
+
+                        <!-- card 2 -->
+                        <article class="collection-card" data-type="pan">
+                            <div class="collection-tag">Chảo từ chống dính</div>
+                            <div class="collection-title">SearPro Frypan</div>
+                            <div class="collection-meta">Lớp phủ chống dính cao cấp, hạn chế dầu mỡ, dễ lau rửa.</div>
+                            <div class="collection-price">Từ 890.000đ</div>
+                            <img class="collection-photo" src="./images/2.jpg" alt="SearPro Frypan" />
+                        </article>
+
+                        <!-- card 3 -->
+                        <article class="collection-card" data-type="cast">
+                            <div class="collection-tag">Nồi gang tráng men</div>
+                            <div class="collection-title">CastGlow Dutch Oven</div>
+                            <div class="collection-meta">Giữ nhiệt lâu, phù hợp các món hầm, soup, ninh xương.</div>
+                            <div class="collection-price">Từ 1.590.000đ</div>
+                            <img class="collection-photo" src="./images/2.jpg" alt="CastGlow Dutch Oven" />
+                        </article>
+                    </div>
+                </section>
+
+                <!-- HORIZONTAL GALLERY (pinned, ScrollTrigger + horizontal transform) -->
+                <section id="gallery" class="panel gallery-panel">
+                    <div class="panel-bg" style="background-image: url('./images/6.jpg');">
+                    </div>
+
+                    <div class="panel-inner">
+                        <h1 class="panel-title">Kitchen Stories</h1>
+                        <div class="panel-line"></div>
+                        <p class="panel-subtitle">
+                            Một chút ánh sáng mềm, màu thép lạnh, điểm pastel nhẹ – bộ nồi chảo inox trở thành
+                            tâm điểm của không gian bếp.
+                        </p>
+
+                        <div class="gallery-viewport">
+                            <div class="gallery-track" id="gallery-track">
+                                <div class="gallery-item" data-label="Mâm cơm gia đình"
+                                    style="background-image:url('./images/9.jpg');">
+                                </div>
+                                <div class="gallery-item" data-label="Chuẩn Hàn Quốc"
+                                    style="background-image:url('./images/6.jpg');">
+                                </div>
+                                <div class="gallery-item" data-label="Bếp hiện đại"
+                                    style="background-image:url('./images/6.jpg');">
+                                </div>
+                                <div class="gallery-item" data-label="Không gian tối giản"
+                                    style="background-image:url('./images/14.jpg');">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- EXPERIENCE PANEL – Draggable + Inertia slider -->
+                <section id="experience" class="panel draggable-panel">
+                    <div class="panel-bg" style="background-image: url('./images/6.jpg');">
+                    </div>
+
+                    <div class="panel-inner">
+                        <h1 class="panel-title">Touch &amp; Feel the Steel</h1>
+                        <div class="panel-line"></div>
+                        <p class="panel-subtitle">
+                            Kéo, thả, “flick” để xem từng thiết kế. Cảm giác trơn mượt, dày dặn của inox
+                            được mô phỏng qua trải nghiệm tương tác.
+                        </p>
+                    </div>
+
+                    <div class="draggable-viewport">
+                        <div class="draggable-track" id="draggable-track">
+                            <div class="draggable-card">
+                                <div class="draggable-name">Aurora Pot 24cm</div>
+                                <div class="draggable-desc">
+                                    Nắp kính cường lực, vạch đo mực nước, tay cầm inox bọc silicone.
+                                </div>
+                                <div class="draggable-spec">Đáy 5 lớp – dùng cho bếp từ / gas</div>
+                            </div>
+                            <div class="draggable-card">
+                                <div class="draggable-name">SearPro Frypan 28cm</div>
+                                <div class="draggable-desc">
+                                    Chảo sâu lòng, phủ chống dính, phù hợp các món chiên, xào, áp chảo.
+                                </div>
+                                <div class="draggable-spec">Tay cầm liền thân chắc chắn</div>
+                            </div>
+                            <div class="draggable-card">
+                                <div class="draggable-name">CastGlow Dutch Oven 22cm</div>
+                                <div class="draggable-desc">
+                                    Nồi gang tráng men, giữ nhiệt lâu, phù hợp món hầm, soup, mì.
+                                </div>
+                                <div class="draggable-spec">Nắp nặng giữ hơi, tiết kiệm năng lượng</div>
+                            </div>
+                            <div class="draggable-card">
+                                <div class="draggable-name">Stockpot 30cm</div>
+                                <div class="draggable-desc">
+                                    Nồi lớn, phù hợp cho gia đình đông người hoặc tiệc nhỏ.
+                                </div>
+                                <div class="draggable-spec">Dung tích 12L, tay cầm chịu lực</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+
+
+                <!-- CONTACT PANEL + back to top (ScrollTo) -->
+                <section id="contact" class="panel contact-panel">
+                    <div class="panel-bg"
+                        style="background-image: url('https://images.pexels.com/photos/3738080/pexels-photo-3738080.jpeg?auto=compress&cs=tinysrgb&w=1600');">
+                    </div>
+
+                    <div class="panel-inner">
+                        <h1 class="panel-title">Contact &amp; Showroom</h1>
+                        <div class="panel-line"></div>
+                        <p class="panel-subtitle">
+                            Đặt hàng online, hợp tác phân phối hoặc thiết kế trưng bày dành riêng
+                            cho chuỗi cửa hàng gia dụng của bạn.
+                        </p>
+
+
+                        <div class="contact-form">
+                            <div class="contact-form-left">
+                                <div class="field">
+                                    <label for="name">Họ tên</label>
+                                    <input id="name" placeholder="Nguyễn Tuấn Hoàng" />
+                                </div>
+                                <div class="field">
+                                    <label for="email">Email / Số điện thoại</label>
+                                    <input id="email" placeholder="you@example.com" />
+                                </div>
+                                <div class="field">
+                                    <label for="message">Nhu cầu</label>
+                                    <textarea id="message"
+                                        placeholder="Ví dụ: Bộ nồi inox cho gia đình 4 người, bếp từ..."></textarea>
+                                </div>
+                                <button class="cta" type="button">Gửi yêu cầu</button>
+                            </div>
+                            <div class="contact-info">
+                                <strong>Showroom Inoxpran</strong><br />
+                                123 Đường Bếp Hàn Quốc, Hà Nội<br />
+                                Hotline: 0900 000 000<br />
+                                Email: sales@inoxpran.vn<br /><br />
+                                Giờ mở cửa: 9:00 – 21:00 (T2–CN).<br />
+                                Hỗ trợ thiết kế combo thiết bị cho nhà ở, căn hộ cho thuê,
+                                homestay và chuỗi F&amp;B.
+                                <div class="back-to-top" id="back-to-top">Quay lại đầu trang</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Register all plugins
+            gsap.registerPlugin(
+                ScrollTrigger,
+                ScrollToPlugin,
+                ScrollSmoother,
+                TextPlugin,
+                SplitText,
+                ScrambleTextPlugin,
+                DrawSVGPlugin,
+                MorphSVGPlugin,
+                MotionPathPlugin,
+                Flip,
+                Draggable,
+                InertiaPlugin,
+                Observer
+            );
+            // Smooth scrolling wrapper
+            const smoother = ScrollSmoother.create({
+                wrapper: "#smooth-wrapper",
+                content: "#smooth-content",
+                smooth: 1.2,
+                effects: true
+            });
+
+
+            // NAV LINKS: on hover, normal label moves up and italic label moves in
+            const navLinks = document.querySelectorAll('.navbar .links a');
+
+            navLinks.forEach(link => {
+                // keep current text
+                const label = link.textContent.trim();
+
+                // mark as animated link
+                link.classList.add('nav-link-anim');
+
+                // replace text with two stacked spans
+                link.innerHTML = `
+                    <span class="nav-label nav-label-normal">${label}</span>
+                    <span class="nav-label nav-label-italic">${label}</span>
+                `;
+
+                const normalSpan = link.querySelector('.nav-label-normal');
+                const italicSpan = link.querySelector('.nav-label-italic');
+
+                // ensure initial positions
+                gsap.set(normalSpan, { y: "0%", opacity: 1 });
+                gsap.set(italicSpan, { y: "100%", opacity: 0 });
+
+                // timeline for this link
+                const tl = gsap.timeline({ paused: true })
+                    .to(normalSpan, {
+                        y: "-100%",       // move normal up out
+                        opacity: 0,
+                        duration: 0.25,
+                        ease: "power3.out"
+                    }, 0)
+                    .to(italicSpan, {
+                        y: "0%",          // bring italic up into view
+                        opacity: 1,
+                        duration: 0.25,
+                        ease: "power3.out"
+                    }, 0);
+
+                link.addEventListener("mouseenter", () => tl.play());
+                link.addEventListener("mouseleave", () => tl.reverse());
+            });
+            // Navbar links -> ScrollTo (through ScrollSmoother)
+            document.querySelectorAll("[data-scroll-to]").forEach(link => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const target = link.getAttribute("data-scroll-to");
+                    smoother.scrollTo(target, true, "top top");
+                });
+            });
+
+            // Back to top
+            const backToTop = document.getElementById("back-to-top");
+            if (backToTop) {
+                backToTop.addEventListener("click", () => {
+                    smoother.scrollTo("#hero", true, "top top");
+                });
+            }
+
+            // HERO: timeline cho title + line + subtitle (có TextPlugin)
+            const heroTitle = document.querySelector(".hero-title");
+            const panelLine = document.querySelector(".panel-line");
+            const panelSubtitle = document.querySelector(".panel-subtitle");
+
+            if (heroTitle && panelLine && panelSubtitle) {
+                // chuẩn bị text cho subtitle
+                const fullText =
+                    panelSubtitle.getAttribute("data-full") ||
+                    panelSubtitle.textContent.trim();
+
+                const phrases = [
+                    "Hàn chuẩn bếp căn", // câu tạm
+                    fullText                  // câu cuối cùng (VN dài)
+                ];
+
+                // xóa text để tí nữa cho TextPlugin gõ vào
+                panelSubtitle.textContent = "";
+
+                const heroTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#hero",
+                        start: "top center", // hero lên giữa màn thì chạy
+                        once: true           // chỉ chạy 1 lần
+                    }
+                });
+
+                // 1) Title: bay từ trái sang, fade-in
+                heroTl.from(heroTitle, {
+                    x: -100,
+                    opacity: 0,
+                    duration: 1.2,
+                    ease: "power3.out"
+                });
+
+                // 2) Line: vẽ ngang ra, bắt đầu sớm hơn 1 chút
+                heroTl.from(panelLine, {
+                    width: 0,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: "power3.out"
+                }, "-=0.6"); // overlap với title 0.6s
+
+                // 3) Subtitle: trồi nhẹ lên + hiện mờ dần
+                heroTl.from(panelSubtitle, {
+                    y: 30,
+                    opacity: 0,
+                    duration: 0.6,
+                    ease: "power3.out"
+                }, "-=0.3");
+
+                // 4) Text Replacement cho subtitle: VN -> EN full text
+                heroTl.to(panelSubtitle, {
+                    duration: 0.6,
+                    text: phrases[0],
+                    ease: "power2.out"
+                });
+
+                heroTl.to(panelSubtitle, {
+                    duration: 5,
+                    text: phrases[1],
+                    ease: "power3.out",
+                });
+            }
+
+
+            // HERO: DrawSVG ring
+            gsap.from("#heroRing", {
+                drawSVG: "0% 0%",
+                scrollTrigger: {
+                    trigger: "#hero",
+                    start: "top center"
+                },
+                duration: 1.8,
+                ease: "power2.out"
+            });
+
+            gsap.from("#heroInnerCircle", {
+                drawSVG: "50% 50%",
+                scrollTrigger: {
+                    trigger: "#hero",
+                    start: "top center"
+                },
+                duration: 1.6,
+                ease: "power2.out"
+            });
+
+            // HERO: MorphSVG pot <-> pan based on scroll
+            gsap.to("#heroShape", {
+                scrollTrigger: {
+                    trigger: "#hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                },
+                duration: 1,
+                ease: "none",
+                morphSVG: {
+                    shape: "#shapePan",
+                    shapeIndex: 2
+                }
+            });
+
+            // HERO: small icon moving along path (MotionPath)
+            gsap.to("#motionIcon", {
+                duration: 8,
+                repeat: -1,
+                ease: "none",
+                motionPath: {
+                    path: "#motionPath",
+                    align: "#motionPath",
+                    autoRotate: false,
+                    alignOrigin: [0.5, 0.5]
+                }
+            });
+
+            // INOX STATS: ScrambleText when in view
+            const statConfigs = [
+                { id: "#stat-layers", value: "05" },
+                { id: "#stat-grade", value: "316" },
+                { id: "#stat-warranty", value: "10+" }
+            ];
+
+            statConfigs.forEach(cfg => {
+                const el = document.querySelector(cfg.id);
+                if (!el) return;
+                ScrollTrigger.create({
+                    trigger: "#inox",
+                    start: "top 65%",
+                    once: true,
+                    onEnter: () => {
+                        gsap.to(el, {
+                            duration: 1.4,
+                            scrambleText: {
+                                text: cfg.value,
+                                chars: "0123456789+",
+                                revealDelay: 0.1
+                            },
+                            ease: "power2.out"
+                        });
+                    }
+                });
+            });
+
+            // COLLECTION FILTERS: Flip plugin
+            const filterRow = document.getElementById("collection-filters");
+            const collectionGrid = document.getElementById("collection-grid");
+
+            if (filterRow && collectionGrid) {
+                filterRow.addEventListener("click", (e) => {
+                    const pill = e.target.closest(".filter-pill");
+                    if (!pill) return;
+
+                    const filter = pill.getAttribute("data-filter");
+
+                    // active pill style
+                    filterRow.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
+                    pill.classList.add("active");
+
+                    const cards = gsap.utils.toArray(".collection-card");
+                    const state = Flip.getState(cards);
+
+                    cards.forEach(card => {
+                        const type = card.getAttribute("data-type");
+                        if (filter === "all" || type === filter) {
+                            card.style.display = "";
+                        } else {
+                            card.style.display = "none";
+                        }
+                    });
+
+                    Flip.from(state, {
+                        duration: 0.6,
+                        ease: "power2.inOut",
+                        absolute: true,
+                        stagger: 0.06
+                    });
+                });
+
+                // Reveal cards on scroll with ScrollTrigger
+                gsap.from(".collection-card", {
+                    scrollTrigger: {
+                        trigger: "#collections",
+                        start: "top 65%"
+                    },
+                    y: 40,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: "power3.out"
+                });
+            }
+
+            // HORIZONTAL GALLERY: pinned horizontal scroll
+            const galleryTrack = document.getElementById("gallery-track");
+            if (galleryTrack) {
+                const items = gsap.utils.toArray(".gallery-item");
+                const totalWidth = items.length * 110; // rough width percentage
+
+                gsap.to(galleryTrack, {
+                    xPercent: -((items.length - 1) * 100),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#gallery",
+                        start: "top top",
+                        end: () => "+=" + window.innerWidth * 1.5,
+                        pin: true,
+                        scrub: true
+                    }
+                });
+            }
+            const heroStove = document.querySelector(".hero-stove");
+
+            if (heroStove) {
+                // starting transform (extra offset + slight tilt if you want)
+                gsap.set(heroStove, {
+                    xPercent: -10,
+                    yPercent: 20,
+                    rotate: -4
+                });
+
+                // parallax diagonal move: from bottom-left (8h) to top-right (2h)
+                gsap.to(heroStove, {
+                    xPercent: 35,   // đi sang phải
+                    yPercent: -35,  // đi lên trên
+                    rotate: 0,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#hero",
+                        start: "top bottom",   // khi hero bắt đầu vào viewport
+                        end: "bottom top",     // khi hero ra khỏi viewport
+                        scrub: true            // bám theo scroll = parallax mượt
+                    }
+                });
+            }
+
+            // DRAGGABLE STRIP: Draggable + Inertia
+            const draggableTrack = document.getElementById("draggable-track");
+            if (draggableTrack) {
+                Draggable.create(draggableTrack, {
+                    type: "x",
+                    bounds: ".draggable-viewport",
+                    inertia: true,
+                    edgeResistance: 0.85,
+                    onPress() {
+                        gsap.to(draggableTrack, { cursor: "grabbing", duration: 0.1 });
+                    },
+                    onRelease() {
+                        gsap.to(draggableTrack, { cursor: "grab", duration: 0.1 });
+                    }
+                });
+
+                // fade-in cards on scroll
+                gsap.from(".draggable-card", {
+                    scrollTrigger: {
+                        trigger: "#experience",
+                        start: "top 70%"
+                    },
+                    y: 40,
+                    opacity: 0,
+                    duration: 0.7,
+                    stagger: 0.1,
+                    ease: "power2.out"
+                });
+            }
+
+            // CTA subtle wiggle on hover
+            document.querySelectorAll(".cta").forEach(btn => {
+                btn.addEventListener("mouseenter", () => {
+                    gsap.fromTo(
+                        btn,
+                        { y: 0 },
+                        {
+                            y: -4,
+                            duration: 0.18,
+                            yoyo: true,
+                            repeat: 1,
+                            ease: "power1.inOut"
+                        }
+                    );
+                });
+            });
+
+            
+
+            // OBSERVER: show/hide navbar on scroll direction
+            // Observer.create({
+            //     type: "wheel,touch,pointer",
+            //     tolerance: 10,
+            //     onDown: () => {
+            //         gsap.to(".navbar", { y: -80, duration: 0.35, ease: "power2.out" });
+            //     },
+            //     onUp: () => {
+            //         gsap.to(".navbar", { y: 0, duration: 0.35, ease: "power2.out" });
+            //     }
+            // });
+
+            // ScrollTrigger refresh when images load
+            window.addEventListener("load", () => {
+                ScrollTrigger.refresh();
+            });
+        });
+    </script>
+</body>
+
+</html>
