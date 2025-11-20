@@ -185,22 +185,56 @@
         /* the stove image itself */
         .hero-stove {
             position: absolute;
-            width: min(720px, 70vw);
-            /* size responsive */
-            bottom: -30%;
-            /* start thấp hơn khung */
-            left: -20%;
-            /* lệch về trái (góc 8h) */
-            transform-origin: center center;
+            bottom: -155%;
+            left: -11%;
+            width: calc(110%);
+            max-width: none;
+
+
+
+            /* transform will be overridden by GSAP */
+        }
+
+        /* CONTAINER – position on the floor */
+        .hero-bin-wrap {
+            position: absolute;
+            /* vị trí gần góc trên trái mặt đá / gỗ */
+            bottom: 50%;
+            /* chỉnh để cho “chạm” sàn đúng ý */
+            left: 10%;
+            width: 15%;
+            height: 180px;
+          
+        }
+
+        /* CONTACT SHADOW dưới chân thùng */
+      
+        /* BẢN THÂN THÙNG */
+        .hero-bin {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            transform-origin: 50% 80%;
+            /* giữ chân cố định */
+            transform: scaleX(0.95) scaleY(1);
+            /*         ↑ hơi thu ngang  ↑ kéo thân cao hơn */
+            filter: brightness(0.9) contrast(1.05);
         }
 
         /* mobile tweak */
         @media (max-width: 768px) {
             .hero-stove {
-                width: 110vw;
-                bottom: -40%;
-                left: -30%;
+                width: 230%;
+                bottom: -450px;
+                left: -440px;
                 opacity: 0.85;
+            }
+
+            .hero-bin {
+                width: 200px;
+                bottom: 14%;
+                left: 4%;
             }
         }
 
@@ -808,21 +842,32 @@
 
             <main>
                 <!-- HERO PANEL -->
-            <section id="hero" class="panel hero-panel">
-                <!-- Wood floor background -->
-                <div class="panel-bg" style="background-image: url('./images/floor-bg.png');"></div>
-            
-                <!-- Stove parallax layer -->
-                <div class="hero-stove-layer">
-                    <img src="./images/bg-items-1.png" 
-                    alt="Stainless steel stove top"
-                    class="hero-stove"
-                    />
-                </div>
-            
-                <!-- Your text block (nếu có) -->
-                <!-- <div class="panel-inner hero-inner">...</div> -->
-            </section>
+                <section id="hero" class="panel hero-panel">
+                    <div class="panel-bg" style="background-image: url('./images/floor-bg.png');"></div>
+
+                    <div class="hero-stove-layer">
+                        <img src="./images/bg-items-1.png" alt="" class="hero-stove" />
+                        <!-- BIN + SHADOW WRAP -->
+                        <div class="hero-bin-wrap">
+                            <div class="hero-bin-shadow"></div>
+                            <div class="hero-bin-shadow-second"></div>
+                            <img src="./images/inp-6801.png" alt="Inoxpran 6801" class="hero-bin" />
+                        </div>
+                    </div>
+
+
+                    <div class="panel-inner hero-inner">
+                        <h1 class="panel-title hero-title"
+                            data-full="Premium Stainless Steel Cookware for Modern Kitchens">
+                            <!-- Bộ đồ nấu nướng bằng thép không gỉ cao cấp cho nhà bếp hiện đại -->
+                        </h1>
+                        <!-- <div class="panel-line"></div> -->
+                        <p class="panel-subtitle">
+                            <!-- Nồi, chảo, bếp điện và thiết bị gia dụng bằng inox bền bỉ, dẫn nhiệt đều,
+                            giữ màu thép sang trọng cho căn bếp chuẩn Ý. -->
+                        </p>
+                    </div>
+                </section>
 
                 <!-- INOX MATERIAL PANEL + stats (ScrambleText) -->
                 <section id="inox" class="panel">
@@ -1125,49 +1170,69 @@
             }
 
             // HERO: timeline cho title + line + subtitle (có TextPlugin)
+            // HERO: timeline cho title + line + subtitle
             const heroTitle = document.querySelector(".hero-title");
             const panelLine = document.querySelector(".panel-line");
             const panelSubtitle = document.querySelector(".panel-subtitle");
-
+            const heroStove = document.querySelector(".hero-stove");
+            const heroBin = document.querySelector(".hero-bin-wrap");
             if (heroTitle && panelLine && panelSubtitle) {
-                // chuẩn bị text cho subtitle
                 const fullText =
                     panelSubtitle.getAttribute("data-full") ||
                     panelSubtitle.textContent.trim();
 
                 const phrases = [
-                    "Hàn chuẩn bếp căn", // câu tạm
-                    fullText                  // câu cuối cùng (VN dài)
+                    "Premium Inox Cookware.",
+                    fullText
                 ];
 
-                // xóa text để tí nữa cho TextPlugin gõ vào
+                // subtitle bắt đầu rỗng để TextPlugin gõ vào
                 panelSubtitle.textContent = "";
+
+                // Vị trí xuất phát của stove (góc 8h – dưới trái, ẨN)
+                if (heroStove) {
+                    gsap.set(heroStove, {
+                        xPercent: -25,
+                        yPercent: 30,
+                        rotate: -6,
+                        opacity: 0,                         // 🔴 ẩn lúc đầu
+                    });
+                }
 
                 const heroTl = gsap.timeline({
                     scrollTrigger: {
                         trigger: "#hero",
-                        start: "top center", // hero lên giữa màn thì chạy
-                        once: true           // chỉ chạy 1 lần
+                        start: "top center",
+                        once: true
                     }
                 });
 
-                // 1) Title: bay từ trái sang, fade-in
+                // 1) ONLY OPACITY INTRO FOR STOVE
+                if (heroStove) {
+                    heroTl.to(heroStove, {
+                        opacity: 1,
+                        duration: 2,
+                        ease: "power2.out"
+                    }, 0); // chạy cùng lúc với title
+                }
+
+                // 2) Title
                 heroTl.from(heroTitle, {
                     x: -100,
                     opacity: 0,
                     duration: 1.2,
                     ease: "power3.out"
-                });
+                }, 0.1);
 
-                // 2) Line: vẽ ngang ra, bắt đầu sớm hơn 1 chút
+                // 3) Line
                 heroTl.from(panelLine, {
                     width: 0,
                     opacity: 0,
                     duration: 0.8,
                     ease: "power3.out"
-                }, "-=0.6"); // overlap với title 0.6s
+                }, "-=0.6");
 
-                // 3) Subtitle: trồi nhẹ lên + hiện mờ dần
+                // 4) Subtitle
                 heroTl.from(panelSubtitle, {
                     y: 30,
                     opacity: 0,
@@ -1175,7 +1240,7 @@
                     ease: "power3.out"
                 }, "-=0.3");
 
-                // 4) Text Replacement cho subtitle: VN -> EN full text
+                // 5) Text Replacement
                 heroTl.to(panelSubtitle, {
                     duration: 0.6,
                     text: phrases[0],
@@ -1185,60 +1250,45 @@
                 heroTl.to(panelSubtitle, {
                     duration: 5,
                     text: phrases[1],
-                    ease: "power3.out",
+                    ease: "power3.out"
                 });
             }
 
+            // ✅ HERO STOVE PARALLAX: ONLY POSITION, NO OPACITY
+            if (heroStove) {
+                gsap.to(heroStove, {
+                    xPercent: 40,      // sang phải
+                    yPercent: -40,     // lên trên
+                    rotate: 0,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#hero",
+                        start: "top bottom", // hero vừa vào viewport
+                        end: "bottom top",   // hero ra khỏi viewport
+                        scrub: 1,
+                        immediateRender: false
+                    }
+                });
+            }
+            if (heroBin) {
+                gsap.fromTo(
+                    heroBin,
+                    { xPercent: -8, yPercent: 10 },   // chỉ dịch, không scale
+                    {
+                        xPercent: 10,
+                        yPercent: -10,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: "#hero",
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: 1
+                        }
+                    }
+                );
+            }
 
-            // HERO: DrawSVG ring
-            gsap.from("#heroRing", {
-                drawSVG: "0% 0%",
-                scrollTrigger: {
-                    trigger: "#hero",
-                    start: "top center"
-                },
-                duration: 1.8,
-                ease: "power2.out"
-            });
 
-            gsap.from("#heroInnerCircle", {
-                drawSVG: "50% 50%",
-                scrollTrigger: {
-                    trigger: "#hero",
-                    start: "top center"
-                },
-                duration: 1.6,
-                ease: "power2.out"
-            });
-
-            // HERO: MorphSVG pot <-> pan based on scroll
-            gsap.to("#heroShape", {
-                scrollTrigger: {
-                    trigger: "#hero",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true
-                },
-                duration: 1,
-                ease: "none",
-                morphSVG: {
-                    shape: "#shapePan",
-                    shapeIndex: 2
-                }
-            });
-
-            // HERO: small icon moving along path (MotionPath)
-            gsap.to("#motionIcon", {
-                duration: 8,
-                repeat: -1,
-                ease: "none",
-                motionPath: {
-                    path: "#motionPath",
-                    align: "#motionPath",
-                    autoRotate: false,
-                    alignOrigin: [0.5, 0.5]
-                }
-            });
 
             // INOX STATS: ScrambleText when in view
             const statConfigs = [
@@ -1335,30 +1385,9 @@
                     }
                 });
             }
-            const heroStove = document.querySelector(".hero-stove");
 
-            if (heroStove) {
-                // starting transform (extra offset + slight tilt if you want)
-                gsap.set(heroStove, {
-                    xPercent: -10,
-                    yPercent: 20,
-                    rotate: -4
-                });
 
-                // parallax diagonal move: from bottom-left (8h) to top-right (2h)
-                gsap.to(heroStove, {
-                    xPercent: 35,   // đi sang phải
-                    yPercent: -35,  // đi lên trên
-                    rotate: 0,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: "#hero",
-                        start: "top bottom",   // khi hero bắt đầu vào viewport
-                        end: "bottom top",     // khi hero ra khỏi viewport
-                        scrub: true            // bám theo scroll = parallax mượt
-                    }
-                });
-            }
+
 
             // DRAGGABLE STRIP: Draggable + Inertia
             const draggableTrack = document.getElementById("draggable-track");
@@ -1407,7 +1436,7 @@
                 });
             });
 
-            
+
 
             // OBSERVER: show/hide navbar on scroll direction
             // Observer.create({
