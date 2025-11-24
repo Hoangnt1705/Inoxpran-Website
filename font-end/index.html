@@ -2,19 +2,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inox Cookware – Stainless Steel Home</title>
-
     <!-- GSAP core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-
     <!-- GSAP official plugins on cdnjs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js" defer></script>
-
     <!-- Club / bonus plugins (demo-style URLs; replace with your own files in production) -->
     <script src="https://assets.codepen.io/16327/ScrollSmoother.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js" defer></script>
@@ -27,7 +23,6 @@
     <script src="https://assets.codepen.io/16327/InertiaPlugin.min.js" defer></script>
     <script src="https://assets.codepen.io/16327/Observer.min.js" defer></script>
     <script src="https://assets.codepen.io/16327/ScrambleTextPlugin3.min.js" defer></script>
-
     <style>
         @import url('https://fonts.cdnfonts.com/css/utm-avo');
 
@@ -171,65 +166,91 @@
         .hero-panel {
             position: relative;
             overflow: hidden;
-            /* để stove không tràn ra ngoài */
         }
 
-        /* layer to hold the stove image */
+        /* gradient overlay cho hero (không chặn click) */
+        .hero-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .hero-stove-layer {
             position: absolute;
             inset: 0;
             pointer-events: none;
-            /* không chặn click của nội dung khác */
+            overflow: hidden;
+            /* chặn mọi tràn của ảnh bếp */
+            z-index: 0;
         }
 
-        /* the stove image itself */
+        /* Desktop: ảnh luôn nằm giữa, giới hạn max-width để không vỡ layout */
+        /* Ảnh bếp – luôn nằm ở góc phải phía trên */
         .hero-stove {
             position: absolute;
-            bottom: -155%;
-            left: -11%;
-            width: calc(110%);
-            max-width: none;
+            top: clamp(16px, 7vh, 10px);
+            /* khoảng cách từ mép trên */
+            right: -40px;
+            /* khoảng cách từ mép phải */
+            /* scale theo màn hình nhưng không quá to/nhỏ */
+            width: 140vh;
+            height: auto;
+
+            object-fit: contain;
+            pointer-events: none;
+            will-change: transform;
 
 
+        }
 
-            /* transform will be overridden by GSAP */
+        /* Tablet (ngang dọc kiểu iPad) */
+        @media (max-width: 1024px) {
+            .hero-stove {
+                width: min(1600px, 250vw);
+                bottom: -60%;
+                /* kéo xuống một chút vì screen thấp hơn */
+                left: -60%;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 748px) {
+            .hero-stove {
+                width: min(1000px, 250vw);
+                bottom: -35%;
+                left: -60%;
+            }
         }
 
         /* CONTAINER – position on the floor */
         .hero-bin-wrap {
-            position: absolute;
             /* vị trí gần góc trên trái mặt đá / gỗ */
             bottom: 50%;
             /* chỉnh để cho “chạm” sàn đúng ý */
             left: 10%;
             width: 15%;
             height: 180px;
-          
+
         }
 
-        /* CONTACT SHADOW dưới chân thùng */
-      
-        /* BẢN THÂN THÙNG */
-        .hero-bin {
+        .hero-pot-wrap {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            transform-origin: 50% 80%;
-            /* giữ chân cố định */
-            transform: scaleX(0.95) scaleY(1);
-            /*         ↑ hơi thu ngang  ↑ kéo thân cao hơn */
-            filter: brightness(0.9) contrast(1.05);
+            bottom: -63%;
+            /* move up/down on the table */
+            right: -40%;
+            /* move left/right */
+            transform: translateX(-50%) rotateZ(-1deg)
+                /* slight rotation to match camera */
+                scale(0.95);
+            transform-origin: 50% 70%;
+            pointer-events: none;
         }
 
         /* mobile tweak */
         @media (max-width: 768px) {
-            .hero-stove {
-                width: 230%;
-                bottom: -450px;
-                left: -440px;
-                opacity: 0.85;
-            }
+
 
             .hero-bin {
                 width: 200px;
@@ -323,6 +344,7 @@
         .panel-inner {
             max-width: 505px;
             z-index: 1;
+
         }
 
         .panel-title.hero-title {
@@ -333,10 +355,8 @@
             color: var(--white-milk);
 
             /* slanted shadow – down & right */
-            text-shadow:
-                -6px 6px 0 rgba(15, 23, 42, 0.07),
-                /* bóng cứng lệch trái */
-                -10px 16px 18px rgba(15, 23, 42, 0.09);
+
+
             /* bóng mềm ngoài */
         }
 
@@ -818,7 +838,6 @@
 </head>
 
 <body>
-
     <!-- Navbar -->
     <header class="navbar">
         <div class="logo">
@@ -831,7 +850,6 @@
             <a href="#contact" data-scroll-to="#contact">Contact</a>
         </nav>
     </header>
-
     <div id="smooth-wrapper">
         <div id="smooth-content">
             <!-- Scroll hint -->
@@ -839,51 +857,43 @@
                 <span>Scroll</span>
                 <div class="scroll-hint-line"></div>
             </div>
-
             <main>
                 <!-- HERO PANEL -->
                 <section id="hero" class="panel hero-panel">
                     <div class="panel-bg" style="background-image: url('./images/floor-bg.png');"></div>
-
-                    <div class="hero-stove-layer">
-                        <img src="./images/bg-items-1.png" alt="" class="hero-stove" />
-                        <!-- BIN + SHADOW WRAP -->
-                        <div class="hero-bin-wrap">
-                            <div class="hero-bin-shadow"></div>
-                            <div class="hero-bin-shadow-second"></div>
-                            <img src="./images/inp-6801.png" alt="Inoxpran 6801" class="hero-bin" />
+                    <!-- ✅ SÂN KHẤU Ở TRUNG TÂM MÀN HÌNH -->
+                    <div class="hero-stage">
+                        <div class="hero-stove-layer">
+                            <img src="./images/bg-items-2.png" alt="" class="hero-stove">
+                        </div>
+                        <div class="hero-pot-wrap">
+                            <img src="./images/inp-2003.png" class="hero-pots" alt="Pot set">
+                            <div class="hero-pot-shadow"></div>
                         </div>
                     </div>
-
-
+                    <!-- Nội dung chữ vẫn như cũ -->
                     <div class="panel-inner hero-inner">
                         <h1 class="panel-title hero-title"
                             data-full="Premium Stainless Steel Cookware for Modern Kitchens">
-                            <!-- Bộ đồ nấu nướng bằng thép không gỉ cao cấp cho nhà bếp hiện đại -->
+                            Bộ đồ nấu nướng bằng thép không gỉ cao cấp cho nhà bếp hiện đại
                         </h1>
-                        <!-- <div class="panel-line"></div> -->
+                        <div class="panel-line"></div>
                         <p class="panel-subtitle">
-                            <!-- Nồi, chảo, bếp điện và thiết bị gia dụng bằng inox bền bỉ, dẫn nhiệt đều,
-                            giữ màu thép sang trọng cho căn bếp chuẩn Ý. -->
+                            Nồi, chảo, bếp điện và thiết bị gia dụng bằng inox bền bỉ, dẫn nhiệt đều,
+                            giữ màu thép sang trọng cho căn bếp chuẩn Ý.
                         </p>
                     </div>
                 </section>
-
                 <!-- INOX MATERIAL PANEL + stats (ScrambleText) -->
                 <section id="inox" class="panel">
-                    <div class="panel-bg" style="background-image: url('./images/intro-bg.jpg');">
-                    </div>
-
+                    <div class="panel-bg" style="background-image: url('./images/intro-bg.jpg');"></div>
                     <div class="panel-inner">
                         <h1 class="panel-title">Why Stainless Steel Inox?</h1>
                         <div class="panel-line"></div>
                         <p class="panel-subtitle">
-
                             Inox 304 &amp; 316 an toàn cho sức khỏe, chống oxy hóa, không bám mùi và dễ vệ sinh.
                             Đáy 3–5 lớp giúp giữ nhiệt đều, tiết kiệm năng lượng khi đun nấu.
-
                         </p>
-
                         <div class="stats-row">
                             <div class="stat-card">
                                 <div class="stat-number" id="stat-layers">3</div>
@@ -900,12 +910,9 @@
                         </div>
                     </div>
                 </section>
-
                 <!-- COLLECTION PANEL with Flip filters -->
                 <section id="collections" class="panel collection-panel">
-                    <div class="panel-bg" style="background-image: url('./images/14.jpg');">
-                    </div>
-
+                    <div class="panel-bg" style="background-image: url('./images/14.jpg');"></div>
                     <div class="panel-inner collection-header">
                         <h1 class="panel-title">Signature Collections</h1>
                         <div class="panel-line"></div>
@@ -913,7 +920,6 @@
                             Từ bộ nồi inox đa tầng, chảo chống dính đáy từ đến nồi gang tráng men –
                             tất cả đều tối ưu cho bếp gia đình hiện đại.
                         </p>
-
                         <div class="filter-row" id="collection-filters">
                             <div class="filter-pill active" data-filter="all">Tất cả</div>
                             <div class="filter-pill" data-filter="pot">Nồi inox</div>
@@ -921,7 +927,6 @@
                             <div class="filter-pill" data-filter="cast">Nồi gang</div>
                         </div>
                     </div>
-
                     <div class="collection-grid" id="collection-grid">
                         <!-- card 1 -->
                         <article class="collection-card" data-type="pot">
@@ -929,34 +934,29 @@
                             <div class="collection-title">Aurora Premium Pot Set</div>
                             <div class="collection-meta">Đáy 5 lớp – sử dụng cho mọi loại bếp, tay cầm cách nhiệt.</div>
                             <div class="collection-price">Từ 1.290.000đ</div>
-                            <img class="collection-photo" src="./images/6.jpg" alt="Aurora Pot" />
+                            <img class="collection-photo" src="./images/6.jpg" alt="Aurora Pot">
                         </article>
-
                         <!-- card 2 -->
                         <article class="collection-card" data-type="pan">
                             <div class="collection-tag">Chảo từ chống dính</div>
                             <div class="collection-title">SearPro Frypan</div>
                             <div class="collection-meta">Lớp phủ chống dính cao cấp, hạn chế dầu mỡ, dễ lau rửa.</div>
                             <div class="collection-price">Từ 890.000đ</div>
-                            <img class="collection-photo" src="./images/2.jpg" alt="SearPro Frypan" />
+                            <img class="collection-photo" src="./images/2.jpg" alt="SearPro Frypan">
                         </article>
-
                         <!-- card 3 -->
                         <article class="collection-card" data-type="cast">
                             <div class="collection-tag">Nồi gang tráng men</div>
                             <div class="collection-title">CastGlow Dutch Oven</div>
                             <div class="collection-meta">Giữ nhiệt lâu, phù hợp các món hầm, soup, ninh xương.</div>
                             <div class="collection-price">Từ 1.590.000đ</div>
-                            <img class="collection-photo" src="./images/2.jpg" alt="CastGlow Dutch Oven" />
+                            <img class="collection-photo" src="./images/2.jpg" alt="CastGlow Dutch Oven">
                         </article>
                     </div>
                 </section>
-
                 <!-- HORIZONTAL GALLERY (pinned, ScrollTrigger + horizontal transform) -->
                 <section id="gallery" class="panel gallery-panel">
-                    <div class="panel-bg" style="background-image: url('./images/6.jpg');">
-                    </div>
-
+                    <div class="panel-bg" style="background-image: url('./images/6.jpg');"></div>
                     <div class="panel-inner">
                         <h1 class="panel-title">Kitchen Stories</h1>
                         <div class="panel-line"></div>
@@ -964,31 +964,23 @@
                             Một chút ánh sáng mềm, màu thép lạnh, điểm pastel nhẹ – bộ nồi chảo inox trở thành
                             tâm điểm của không gian bếp.
                         </p>
-
                         <div class="gallery-viewport">
                             <div class="gallery-track" id="gallery-track">
                                 <div class="gallery-item" data-label="Mâm cơm gia đình"
-                                    style="background-image:url('./images/9.jpg');">
-                                </div>
+                                    style="background-image:url('./images/9.jpg');"></div>
                                 <div class="gallery-item" data-label="Chuẩn Hàn Quốc"
-                                    style="background-image:url('./images/6.jpg');">
-                                </div>
+                                    style="background-image:url('./images/6.jpg');"></div>
                                 <div class="gallery-item" data-label="Bếp hiện đại"
-                                    style="background-image:url('./images/6.jpg');">
-                                </div>
+                                    style="background-image:url('./images/6.jpg');"></div>
                                 <div class="gallery-item" data-label="Không gian tối giản"
-                                    style="background-image:url('./images/14.jpg');">
-                                </div>
+                                    style="background-image:url('./images/14.jpg');"></div>
                             </div>
                         </div>
                     </div>
                 </section>
-
                 <!-- EXPERIENCE PANEL – Draggable + Inertia slider -->
                 <section id="experience" class="panel draggable-panel">
-                    <div class="panel-bg" style="background-image: url('./images/6.jpg');">
-                    </div>
-
+                    <div class="panel-bg" style="background-image: url('./images/6.jpg');"></div>
                     <div class="panel-inner">
                         <h1 class="panel-title">Touch &amp; Feel the Steel</h1>
                         <div class="panel-line"></div>
@@ -997,7 +989,6 @@
                             được mô phỏng qua trải nghiệm tương tác.
                         </p>
                     </div>
-
                     <div class="draggable-viewport">
                         <div class="draggable-track" id="draggable-track">
                             <div class="draggable-card">
@@ -1031,16 +1022,11 @@
                         </div>
                     </div>
                 </section>
-
-
-
-
                 <!-- CONTACT PANEL + back to top (ScrollTo) -->
                 <section id="contact" class="panel contact-panel">
                     <div class="panel-bg"
                         style="background-image: url('https://images.pexels.com/photos/3738080/pexels-photo-3738080.jpeg?auto=compress&cs=tinysrgb&w=1600');">
                     </div>
-
                     <div class="panel-inner">
                         <h1 class="panel-title">Contact &amp; Showroom</h1>
                         <div class="panel-line"></div>
@@ -1048,17 +1034,15 @@
                             Đặt hàng online, hợp tác phân phối hoặc thiết kế trưng bày dành riêng
                             cho chuỗi cửa hàng gia dụng của bạn.
                         </p>
-
-
                         <div class="contact-form">
                             <div class="contact-form-left">
                                 <div class="field">
                                     <label for="name">Họ tên</label>
-                                    <input id="name" placeholder="Nguyễn Tuấn Hoàng" />
+                                    <input id="name" placeholder="Nguyễn Tuấn Hoàng">
                                 </div>
                                 <div class="field">
                                     <label for="email">Email / Số điện thoại</label>
-                                    <input id="email" placeholder="you@example.com" />
+                                    <input id="email" placeholder="you@example.com">
                                 </div>
                                 <div class="field">
                                     <label for="message">Nhu cầu</label>
@@ -1068,11 +1052,17 @@
                                 <button class="cta" type="button">Gửi yêu cầu</button>
                             </div>
                             <div class="contact-info">
-                                <strong>Showroom Inoxpran</strong><br />
-                                123 Đường Bếp Hàn Quốc, Hà Nội<br />
-                                Hotline: 0900 000 000<br />
-                                Email: sales@inoxpran.vn<br /><br />
-                                Giờ mở cửa: 9:00 – 21:00 (T2–CN).<br />
+                                <strong>Showroom Inoxpran</strong>
+                                <br>
+                                123 Đường Bếp Hàn Quốc, Hà Nội
+                                <br>
+                                Hotline: 0900 000 000
+                                <br>
+                                Email: sales@inoxpran.vn
+                                <br>
+                                <br>
+                                Giờ mở cửa: 9:00 – 21:00 (T2–CN).
+                                <br>
                                 Hỗ trợ thiết kế combo thiết bị cho nhà ở, căn hộ cho thuê,
                                 homestay và chuỗi F&amp;B.
                                 <div class="back-to-top" id="back-to-top">Quay lại đầu trang</div>
@@ -1083,7 +1073,6 @@
             </main>
         </div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             // Register all plugins
@@ -1256,37 +1245,60 @@
 
             // ✅ HERO STOVE PARALLAX: ONLY POSITION, NO OPACITY
             if (heroStove) {
-                gsap.to(heroStove, {
-                    xPercent: 40,      // sang phải
-                    yPercent: -40,     // lên trên
-                    rotate: 0,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: "#hero",
-                        start: "top bottom", // hero vừa vào viewport
-                        end: "bottom top",   // hero ra khỏi viewport
-                        scrub: 1,
-                        immediateRender: false
-                    }
-                });
-            }
-            if (heroBin) {
-                gsap.fromTo(
-                    heroBin,
-                    { xPercent: -8, yPercent: 10 },   // chỉ dịch, không scale
-                    {
-                        xPercent: 10,
-                        yPercent: -10,
+                const mm = gsap.matchMedia();
+
+                // Desktop ≥ 1025px
+                mm.add("(min-width: 1025px)", () => {
+                    return gsap.to(heroStove, {
+                        xPercent: 30,
+                        yPercent: -35,
+                        rotate: 0,
                         ease: "none",
                         scrollTrigger: {
                             trigger: "#hero",
                             start: "top bottom",
                             end: "bottom top",
-                            scrub: 1
+                            scrub: 1,
+                            immediateRender: false
                         }
-                    }
-                );
+                    });
+                });
+
+                // Tablet (769px – 1024px)
+                mm.add("(max-width: 1024px) and (min-width: 769px)", () => {
+                    return gsap.to(heroStove, {
+                        xPercent: 15,   // parallax nhẹ hơn để không tràn
+                        yPercent: -20,
+                        rotate: 0,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: "#hero",
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: 1,
+                            immediateRender: false
+                        }
+                    });
+                });
+
+                // Mobile ≤ 768px
+                mm.add("(max-width: 768px)", () => {
+                    return gsap.to(heroStove, {
+                        xPercent: 8,    // gần như chỉ “thở” nhẹ
+                        yPercent: -10,
+                        rotate: 0,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: "#hero",
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: 1,
+                            immediateRender: false
+                        }
+                    });
+                });
             }
+
 
 
 
