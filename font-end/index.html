@@ -40,7 +40,17 @@
             --charcoal-blue: #0f172a;
             --accent-gold: #facc15;
             --accent-soft: #38bdf8;
-            --white-milk: #f1f2f3
+            --white-milk: #f1f2f3;
+            --black-1: #2F3638;
+            --black-2: #24292B;
+            --black-3: #181C1D;
+            --black-4: #0C0E0F;
+            --black-5: #000000;
+            --white-1: #FFFFFF;
+            --white-2: #F2F4F5;
+            --white-3: #E6EAEB;
+            --white-4: #D9DEE0;
+            --white-5: #CCD2D4;
         }
 
         html,
@@ -96,6 +106,8 @@
             color: var(--charcoal-blue);
             white-space: nowrap;
             cursor: pointer;
+            pointer-events: none;
+
         }
 
         .navbar .logo>#img-logo {
@@ -211,21 +223,43 @@
         /* Tablet (ngang dọc kiểu iPad) */
         @media (max-width: 1024px) {
             .hero-stove {
-                width: min(1600px, 250vw);
-                bottom: -60%;
+                width: min(1400px, 250vw);
+                top: 10%;
                 /* kéo xuống một chút vì screen thấp hơn */
-                left: -60%;
+                left: -10%;
+            }
+
+            .panel-inner {
+                margin-bottom: 650px;
             }
         }
 
         /* Mobile */
         @media (max-width: 748px) {
             .hero-stove {
-                width: min(1000px, 250vw);
-                bottom: -35%;
-                left: -60%;
+                width: min(600px, 250vw);
+                top: 30%;
+                left: -5%;
+            }
+
+            .panel-inner {
+                margin-bottom: 250px;
             }
         }
+
+        @media (max-width: 540px) {
+            .hero-stove {
+                width: min(700px, 250vw);
+                top: 30%;
+                left: -5%;
+            }
+
+            .panel-inner {
+                margin-bottom: 250px;
+            }
+        }
+
+
 
         /* CONTAINER – position on the floor */
         .hero-bin-wrap {
@@ -318,6 +352,10 @@
             overflow: hidden;
         }
 
+        #gallery .panel-bg {
+            background-size: cover;
+            background-position: center;
+        }
 
         .panel-bg {
             position: absolute;
@@ -400,7 +438,8 @@
             color: var(--white-milk);
 
         }
-        .panel-subtitle.s1{
+
+        .panel-subtitle.s1 {
             font-size: 1rem;
             line-height: 1.7;
             max-width: 460px;
@@ -409,58 +448,54 @@
 
         }
 
-        /* ===== INOX: layout 2 cột + card ảnh bên phải ===== */
-        #inox .inox-layout {
+        /* INOX CARD BÊN PHẢI – DESKTOP DÙNG 100vh */
+        /* ===== INOX SECTION BASE ===== */
+        #inox {
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: clamp(2rem, 6vw, 4rem);
+        }
+
+        /* card bên phải, rộng = 100vh như bạn muốn */
+        #inox .inox-card {
+            position: absolute;
+            right: 6vw;
+            /* chỉnh khoảng cách với mép phải */
+            top: 5%;
+            /* căn giữa theo chiều cao section */
+            transform: translateY(-50%);
+            width: 100vh;
+            /* ✅ giữ theo yêu cầu: width = 100% viewport height */
+            max-width: 100%;
+            /* tránh overflow ngang nếu màn quá cao */
+            z-index: 1;
+        }
+
+        #inox .inox-card-img {
+            display: block;
             width: 100%;
-            z-index: 1;
-        }
-
-        /* panel-inner trong section này: giới hạn rộng để dễ đọc */
-        #inox .panel-inner {
-            max-width: 520px;
-        }
-
-        /* Card hình inox bên phải */
-        .inox-card {
-            flex: 0 0 min(380px, 40vw);
-            max-width: 2020px;
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 1.5rem;
-            box-shadow: 0 22px 55px rgba(15, 23, 42, 0.35);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-        }
-
-        .inox-card-img {
-            width: 120%;
             height: auto;
-            object-fit: contain;
+            filter: drop-shadow(0 18px 35px rgba(15, 23, 42, 0.45));
+            border-radius: 20px;
         }
 
-        /* Responsive: dưới ~900px thì xếp dọc, card xuống dưới */
-        @media (max-width: 900px) {
-            #inox .inox-layout {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            #inox .panel-inner {
-                max-width: 100%;
-            }
-
+        /* Tablet: vẫn ưu tiên 100vh nhưng tránh quá to so với chiều ngang */
+        @media (max-width: 1200px) {
             #inox .inox-card {
-                margin-top: 1.8rem;
-                align-self: center;
-                width: min(420px, 90vw);
-                flex: 0 0 auto;
+                right: 3vw;
+                width: min(100vh, 100vh);
+                /* vẫn base = 100vh, nhưng không rộng hơn 70% viewport width */
+            }
+        }
+
+        /* Mobile: để card xuống dưới text, không absolute nữa */
+        @media (max-width: 900px) {
+            #inox .inox-card {
+                position: relative;
+                right: auto;
+                top: 0px;
+                transform: none;
+                width: 100vh;
+                max-width: 480px;
+                /* margin: 0rem auto 100px 0; */
             }
         }
 
@@ -598,13 +633,13 @@
             padding: 0.45rem 1.3rem;
             border-radius: 999px;
             border: 1px solid rgba(15, 23, 42, 0.28);
-            background: rgba(248, 250, 252, 0.9);
+            background: #FFF5EB;
             cursor: pointer;
         }
 
         .filter-pill.active {
             background: var(--charcoal-blue);
-            color: #f9fafb;
+            color: #FFF5EB;
             border-color: var(--charcoal-blue);
         }
 
@@ -653,11 +688,12 @@
         }
 
         .collection-photo {
-            position: absolute;
             right: -10%;
             bottom: -10%;
+            border-radius: 10px;
+            margin: 10px;
             width: 55%;
-            height: auto;
+            height: 50%;
             filter: drop-shadow(0 20px 30px rgba(15, 23, 42, 0.5));
         }
 
@@ -894,6 +930,56 @@
                 display: none;
             }
         }
+
+
+        #contact {
+            color: var(--black-4);
+        }
+
+        #contact .panel-inner {
+            max-width: 100%;
+        }
+
+        /* tất cả text chính trong contact dùng màu #0C0E0F */
+        #contact .panel-title,
+        #contact .panel-subtitle,
+        #contact .field label,
+        #contact .contact-info,
+        #contact .back-to-top {
+            color: var(--black-4);
+        }
+
+        /* input/textarea text */
+        #contact .field input,
+        #contact .field textarea {
+            color: var(--black-4);
+            background: #FFFFFF;
+        }
+
+        /* header 3 cột giống footer mẫu */
+        .contact-header-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            font-size: 0.85rem;
+        }
+
+        .contact-header-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            margin-bottom: 0.9rem;
+        }
+
+        /* mobile: xếp dọc */
+        @media (max-width: 768px) {
+            .contact-header-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 1.5rem;
+            }
+        }
     </style>
 </head>
 
@@ -942,20 +1028,18 @@
                             Nồi, chảo, bếp điện và thiết bị gia dụng bằng inox bền bỉ, dẫn nhiệt đều,
                             giữ màu thép sang trọng cho căn bếp chuẩn Ý.
                         </p>
-                        <div class="tag-row">
+                        <div class="tag-row tag-row-s1">
                             <span class="tag">Inox 304</span>
                             <span class="tag">Đáy từ đa lớp</span>
                             <span class="tag">Hiệu suất bắt từ 98%</span>
                         </div>
-                        <button class="cta">Khám phá bộ nồi chảo</button>
+                        <button class="cta btn-s1">Khám phá bộ nồi chảo</button>
                     </div>
 
                 </section>
                 <!-- INOX MATERIAL PANEL + stats (ScrambleText) -->
                 <section id="inox" class="panel">
-                    <div class="panel-bg"
-                        style="background-image: url('./images/'); background-color: #6EA6B9;">
-                    </div>
+                    <div class="panel-bg" style="background-image: url('./images/'); background-color: #6EA6B9;"></div>
 
                     <!-- layout 2 cột -->
                     <div class="inox-layout">
@@ -964,8 +1048,7 @@
                             <h1 class="panel-title" style="color: #FFFFFF">Vì sao chọn Inox 304?</h1>
                             <p class="panel-subtitle">
                                 Inox 304 an tâm tiếp xúc thực phẩm, không ám mùi và dễ vệ sinh. Đáy 3–5 lớp dẫn–giữ
-                                nhiệt đều từ đáy lên thành, nấu
-                                nhanh mà tiết kiệm năng lượng.
+                                nhiệt đều từ đáy lên thành, nấu nhanh mà tiết kiệm năng lượng.
                             </p>
                             <div class="stats-row">
                                 <div class="stat-card">
@@ -984,10 +1067,11 @@
                         </div>
 
                         <!-- Cột phải: card hình -->
-                        <div class="inox-card">
-                            <img src="./images/structure.png" alt="Cấu trúc đáy 3 lớp inox 304 - lõi nhôm - 430"
-                                class="inox-card-img" />
-                        </div>
+
+                    </div>
+                    <div class="inox-card">
+                        <img src="./images/structure6.png" alt="Cấu trúc đáy 3 lớp inox 304 - lõi nhôm - 430"
+                            class="inox-card-img" />
                     </div>
                 </section>
 
@@ -995,8 +1079,8 @@
                 <section id="collections" class="panel collection-panel">
                     <div class="panel-bg" style="background-image: url(); background-color: #8BB8C7;"></div>
                     <div class="panel-inner collection-header">
-                        <h1 class="panel-title" style="color: #F0F8FA">Signature Collections</h1>
-                        <p class="panel-subtitle" style="color: #F0F8FA">
+                        <h1 class="panel-title" style="color: #FFF5EB">Bộ sản phẩm nổi bật</h1>
+                        <p class="panel-subtitle" style="color: #FFF5EB">
                             Từ bộ nồi inox đa tầng, chảo chống dính đáy từ đến nồi gang tráng men –
                             tất cả đều tối ưu cho bếp gia đình hiện đại.
                         </p>
@@ -1009,36 +1093,66 @@
                     </div>
                     <div class="collection-grid" id="collection-grid">
                         <!-- card 1 -->
-                        <article class="collection-card" data-type="pot">
+                        <article class="collection-card" data-type="pot" style="background-color: #FFF5EB">
                             <div class="collection-tag">Nồi Inox 5 đáy</div>
-                            <div class="collection-title">Aurora Premium Pot Set</div>
-                            <div class="collection-meta">Đáy 5 lớp – sử dụng cho mọi loại bếp, tay cầm cách nhiệt.</div>
+                            <div class="collection-title">Bộ nồi Inox INP-1001</div>
+                            <div>
+                                <img class="collection-photo" src="./images/inp1001.jpg" alt="Aurora Pot">
+
+                            </div>
+                            <!-- <div class="collection-meta">Thân dày 0.5mm - chất liệu inox 304 cao cấp
+                                Nắp kính dày 3.5mm, quan sát dễ - giữ nhiệt/giữ hơi cho món ngon hơn
+                                Tay quai cách nhiệt an toàn khi sử dụng
+                                Đánh bóng gương mặt trong/ngoài để dễ vệ sinh, phù hợp bày ở không gian bếp
+                                Vạch đo mực nước bên trong nồi giúp định lượng nhanh
+                            </div> -->
                             <div class="collection-price">Từ 1.290.000đ</div>
-                            <!-- <img class="collection-photo" src="./images/6.jpg" alt="Aurora Pot"> -->
                         </article>
 
                         <!-- card 2 -->
-                        <article class="collection-card" data-type="pan">
-                            <div class="collection-tag">Chảo từ chống dính</div>
-                            <div class="collection-title">SearPro Frypan</div>
-                            <div class="collection-meta">Lớp phủ chống dính cao cấp, hạn chế dầu mỡ, dễ lau rửa.</div>
+                        <article class="collection-card" data-type="pan" style="background-color: #FFF5EB">
+                            <div class="collection-tag">Chảo gang chống dính</div>
+                            <div class="collection-title">Chảo gang INP-3201</div>
+                            <div>
+                                <img class="collection-photo" src="./images/INP3201.png" alt="SearPro Frypan">
+
+                            </div>
+                            <!-- <div class="collection-meta">
+                                "Chất liệu gang đúc cao cấp dày dặn
+                                Vỏ ngoài men bóng đỏ chuyển sắc, bền màu và chống ố bám tốt hơn
+                                Lòng chảo men bóng đen xám
+                                Bảo tồn nhiệt lượng tốt, sau khi tắt bếp, nhiệt còn lại tiếp tục làm chín nhẹ nhàng,
+                                giúp mềm bên trong - giòn mặt
+                                ngoài. Phù hợp làm beefsteak, trứng, pancake, rau củ áp chảo"
+
+                            </div> -->
                             <div class="collection-price">Từ 890.000đ</div>
-                            <!-- <img class="collection-photo" src="./images/2.jpg" alt="SearPro Frypan"> -->
                         </article>
                         <!-- card 3 -->
-                        <article class="collection-card" data-type="cast">
+                        <article class="collection-card" data-type="cast" style="background-color: #FFF5EB">
                             <div class="collection-tag">Nồi gang tráng men</div>
-                            <div class="collection-title">CastGlow Dutch Oven</div>
-                            <div class="collection-meta">Giữ nhiệt lâu, phù hợp các món hầm, soup, ninh xương.</div>
+                            <div class="collection-title">Nồi gang INP-3001</div>
+                            <div>
+                                <img class="collection-photo" src="./images/INP3001.png" alt="CastGlow Dutch Oven">
+
+                            </div>
+                            <!-- <div class="collection-meta">
+                                "Chất liệu gang đúc cao cấp dày dặn
+                                Vỏ ngoài men bóng đỏ chuyển sắc, bền màu và chống ố bám tốt hơn
+                                Lòng nồi men bóng be
+                                Bảo tồn nhiệt lượng tốt, sau khi tắt bếp, nhiệt còn lại tiếp tục làm chín nhẹ nhàng,
+                                giúp mềm bên trong - giòn mặt
+                                ngoài. Phù hợp cho món ninh, hầm, soup, om/quay lượng nhiều."
+
+                            </div> -->
                             <div class="collection-price">Từ 1.590.000đ</div>
-                            <!-- <img class="collection-photo" src="./images/2.jpg" alt="CastGlow Dutch Oven"> -->
                         </article>
                     </div>
                 </section>
                 <!-- HORIZONTAL GALLERY (pinned, ScrollTrigger + horizontal transform) -->
                 <section id="gallery" class="panel gallery-panel">
                     <div class="panel-bg" style="background-image:; background-color: #A8CAD5;"></div>
-                    <div class="panel-inner" >
+                    <div class="panel-inner">
                         <h1 class="panel-title" style="color: #4F8291">Kitchen Stories</h1>
                         <p class="panel-subtitle" style="color: #4F8291">
                             Một chút ánh sáng mềm, màu thép lạnh, điểm pastel nhẹ – bộ nồi chảo inox trở thành
@@ -1059,9 +1173,9 @@
                     </div>
                 </section>
                 <!-- EXPERIENCE PANEL – Draggable + Inertia slider -->
-                <section id="experience" class="panel draggable-panel">
+                <!-- <section id="experience" class="panel draggable-panel">
                     <div class="panel-bg" style="background-color: #C5DBE3; "></div>
-                    <div class="panel-inner" >
+                    <div class="panel-inner">
                         <h1 class="panel-title" style="color: #346270">Touch &amp; Feel the Steel</h1>
                         <p class="panel-subtitle" style="color: #346270">
                             Kéo, thả, “flick” để xem từng thiết kế. Cảm giác trơn mượt, dày dặn của inox
@@ -1100,18 +1214,44 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> -->
                 <!-- CONTACT PANEL + back to top (ScrollTo) -->
+                <!-- CONTACT PANEL + footer-info -->
                 <section id="contact" class="panel contact-panel">
-                    <div class="panel-bg" style="background-image: ; background-color: #E2EDF1;">
-                    </div>
-                    <div class="panel-inner">
-                        <h1 class="panel-title" style="color: #1A404D">Contact &amp; Showroom</h1>
-                        <div class="panel-line"></div>
-                        <p class="panel-subtitle" style="color: #1A404D">
+                    <div class="panel-bg" style="background-color: #E2EDF1;"></div>
+
+                    <div class="panel-inner contact-inner">
+                        <!-- HEADER GIỐNG ẢNH -->
+                        <div class="contact-header-grid">
+                            <div class="contact-header-col">
+                                <h4 class="contact-header-title">THÔNG TIN</h4>
+                                <p>Số 1369 Đại Lộ Thăng Long</p>
+                                <p>0392 609 539</p>
+                                <p>congtytnhthangvuong@gmail.com</p>
+                            </div>
+
+                            <div class="contact-header-col">
+                                <h4 class="contact-header-title">CHÍNH SÁCH</h4>
+                                <p>Chính sách bảo mật</p>
+                                <p>Chính sách vận chuyển</p>
+                                <p>Chính sách đổi trả</p>
+                            </div>
+
+                            <div class="contact-header-col">
+                                <h4 class="contact-header-title">HƯỚNG DẪN</h4>
+                                <p>Hướng dẫn mua hàng</p>
+                                <p>Hướng dẫn thanh toán</p>
+                                <p>Hướng dẫn giao nhận</p>
+                            </div>
+                        </div>
+
+                        <!-- TIÊU ĐỀ GỐC + FORM -->
+                        <h1 class="panel-title">Contact &amp; Showroom</h1>
+                        <p class="panel-subtitle">
                             Đặt hàng online, hợp tác phân phối hoặc thiết kế trưng bày dành riêng
                             cho chuỗi cửa hàng gia dụng của bạn.
                         </p>
+
                         <div class="contact-form">
                             <div class="contact-form-left">
                                 <div class="field">
@@ -1129,6 +1269,7 @@
                                 </div>
                                 <button class="cta" type="button">Gửi yêu cầu</button>
                             </div>
+
                             <div class="contact-info">
                                 <strong>Showroom Inoxpran</strong>
                                 <br>
@@ -1137,8 +1278,7 @@
                                 Hotline: 0900 000 000
                                 <br>
                                 Email: sales@inoxpran.vn
-                                <br>
-                                <br>
+                                <br><br>
                                 Giờ mở cửa: 9:00 – 21:00 (T2–CN).
                                 <br>
                                 Hỗ trợ thiết kế combo thiết bị cho nhà ở, căn hộ cho thuê,
@@ -1148,6 +1288,8 @@
                         </div>
                     </div>
                 </section>
+
+
             </main>
         </div>
     </div>
@@ -1237,56 +1379,20 @@
             }
 
             // HERO: timeline cho title + line + subtitle (có TextPlugin)
-            // HERO: timeline cho title + line + subtitle
+            const heroSection = document.querySelector("#hero");
             const heroTitle = document.querySelector(".hero-title");
             const panelLine = document.querySelector(".panel-line");
             const panelSubtitle = document.querySelector(".panel-subtitle");
             const heroStove = document.querySelector(".hero-stove");
             const heroBin = document.querySelector(".hero-bin-wrap");
+            const heroTags = document.querySelectorAll(".tag-row-s1 .tag");
+            const heroCta = document.querySelector(".btn-s1");
 
-            // INOX TEXT REVEAL + PARALLAX (title, subtitle, stats-row)
-            const inoxSection = document.querySelector("#inox");
 
-            if (inoxSection) {
-                const inoxTitle = inoxSection.querySelector(".panel-title");
-                const inoxSubtitle = inoxSection.querySelector(".panel-subtitle");
-                const inoxStatsRow = inoxSection.querySelector(".stats-row");
+            if (heroSection && heroTitle && panelLine && panelSubtitle) {
 
-                // timeline parallax cho phần chữ Inox
-                const inoxTl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: "#inox",
-                        start: "top 75%",   // panel inox vừa nhô lên
-                        end: "bottom 25%",// gần ra khỏi màn
-                        scrub: 1,           // parallax mượt, bám theo scroll
-                        // markers: true,   // bật nếu muốn debug
-                    }
-                });
 
-                // Title: bay từ dưới lên và sau đó “trôi” lên nhẹ (parallax)
-                inoxTl.fromTo(
-                    inoxTitle,
-                    { y: 80, opacity: 0 },
-                    { y: -20, opacity: 1, duration: 1, ease: "power3.out" }
-                );
 
-                // Subtitle: đi ít hơn 1 chút, trễ nhẹ
-                inoxTl.fromTo(
-                    inoxSubtitle,
-                    { y: 60, opacity: 0 },
-                    { y: -10, opacity: 1, duration: 1, ease: "power3.out" },
-                    "-=0.6"   // overlap với title
-                );
-
-                // Stats-row: trồi lên từ dưới, parallax nhỏ
-                inoxTl.fromTo(
-                    inoxStatsRow,
-                    { y: 80, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 1.1, ease: "power3.out" },
-                    "-=0.5"
-                );
-            }
-            if (heroTitle && panelLine && panelSubtitle) {
                 const fullText =
                     panelSubtitle.getAttribute("data-full") ||
                     panelSubtitle.textContent.trim();
@@ -1295,6 +1401,7 @@
                     "Premium Inox Cookware.",
                     fullText
                 ];
+
 
                 // subtitle bắt đầu rỗng để TextPlugin gõ vào
                 panelSubtitle.textContent = "";
@@ -1306,6 +1413,8 @@
                         yPercent: 30,
                         rotate: -6,
                         opacity: 0,                         // 🔴 ẩn lúc đầu
+                        scrub: 1,         // tăng scrub để mượt hơn
+
                     });
                 }
 
@@ -1362,7 +1471,95 @@
                     text: phrases[1],
                     ease: "power3.out"
                 });
+
+                heroTl.from(heroTags, {
+                    x: -100,
+                    opacity: 0,
+                    duration: 1.2,
+                    ease: "power3.out"
+                }, 0.1);
+                heroTl.from(heroCta, {
+                    x: -100,
+                    opacity: 0,
+                    duration: 1.2,
+                    ease: "power3.out"
+                }, 0.1);
             }
+
+            if (
+                heroSection &&
+                heroTitle &&
+                panelLine &&
+                panelSubtitle &&
+                heroTags &&
+                heroCta
+            ) {
+                // 1. TRẠNG THÁI BAN ĐẦU (intro ẩn + nằm thấp một chút)
+                gsap.set([heroTitle, panelLine, panelSubtitle, heroTags, heroCta], {
+                    opacity: 0,
+                    y: 60       // bay lên nhẹ khi xuất hiện
+                });
+
+                // 2. TIMELINE THEO SCROLL:
+                // - vào section: lần lượt hiện rõ (parallax nhỏ)
+                // - cuộn qua: cả cụm trượt lên + mờ dần
+                const heroTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#hero",
+                        start: "top 75%",    // section hero vừa nhô lên
+                        end: "bottom 25%",   // gần hết hero, chuẩn bị sang section sau
+                        scrub: 1,            // bám theo scroll = parallax
+                        // markers: true
+                    }
+                });
+
+                // PHA 1: INTRO – HIỆN LẦN LƯỢT
+                heroTl
+                    .to(heroTitle, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.3,
+                        ease: "none"
+                    }, 0)
+                    .to(panelLine, {
+                        opacity: 1,
+                        scaleX: 1,
+                        y: 0,
+                        duration: 0.3,
+                        ease: "none"
+                    }, 0.05)
+                    .to(panelSubtitle, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.3,
+                        ease: "none"
+                    }, 0.10)
+                    .to(heroTags, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.3,
+                        ease: "none"
+                    }, 0.15)
+                    .to(heroCta, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.3,
+                        ease: "none"
+                    }, 0.20);
+
+                // PHA 2: OUTRO – CUỘN QUA THÌ TRƯỢT LÊN + MỜ ĐI
+                heroTl.to(
+                    [heroTitle, panelLine, panelSubtitle, heroTags, heroCta],
+                    {
+                        opacity: 0,
+                        y: -60,          // trượt lên trên
+                        duration: 0.4,
+                        ease: "none"
+                    },
+                    0.6                 // chạy ở nửa sau timeline → giữ hero lại một chút rồi mới “biến”
+                );
+            }
+
 
             // ✅ HERO STOVE PARALLAX: ONLY POSITION, NO OPACITY
             if (heroStove) {
@@ -1422,6 +1619,66 @@
             }
 
 
+            // INOX TEXT REVEAL + PARALLAX (title, subtitle, stats-row, inox-card)
+            const inoxSection = document.querySelector("#inox");
+
+            if (inoxSection) {
+                const inoxTitle = inoxSection.querySelector(".panel-title");
+                const inoxSubtitle = inoxSection.querySelector(".panel-subtitle");
+                const inoxStatsRow = inoxSection.querySelector(".stats-row");
+                const inoxCard = inoxSection.querySelector(".inox-card");
+
+                // reset trạng thái ban đầu: trượt xuống + mờ
+                gsap.set([inoxTitle, inoxSubtitle, inoxStatsRow, inoxCard], {
+                    opacity: 0,
+                    y: 100
+                });
+
+                const inoxTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#inox",
+                        start: "top 75%",     // panel vừa nhô lên
+                        end: "bottom 25%",    // gần ra khỏi màn
+                        scrub: 1,             // bám theo scroll (parallax cảm giác mượt)
+                        // markers: true,
+                    }
+                });
+
+                // PHA 1: LẦN LƯỢT HIỆN RA
+                inoxTl
+                    .to(inoxTitle, {
+                        opacity: 1,
+                        y: 0,
+                        ease: "none"
+                    }, 0)
+                    .to(inoxSubtitle, {
+                        opacity: 1,
+                        y: 0,
+                        ease: "none"
+                    }, 0.08)
+                    .to(inoxStatsRow, {
+                        opacity: 1,
+                        y: 0,
+                        ease: "none"
+                    }, 0.16)
+                    .to(inoxCard, {
+                        opacity: 1,
+                        y: 0,
+                        ease: "none"
+                    }, 0.24);
+
+                // PHA 2: KHI CUỘN QUA – TRƯỢT LÊN & MỜ ĐI
+                inoxTl.to(
+                    [inoxTitle, inoxSubtitle, inoxStatsRow, inoxCard],
+                    {
+                        opacity: 0,
+                        y: -60,  // trượt lên trên
+                        ease: "none"
+                    },
+                    ">+0.25"   // chạy sau khi đã hiện ra rõ một đoạn
+                );
+            }
+
             // INOX STATS: ScrambleText when in view
             const statConfigs = [
                 { sel: "#stat-layers", target: 925, suffix: "°C", duration: 2 }, // -> 05
@@ -1476,6 +1733,7 @@
             });
 
 
+
             // COLLECTION FILTERS: Flip plugin
             const filterRow = document.getElementById("collection-filters");
             const collectionGrid = document.getElementById("collection-grid");
@@ -1525,13 +1783,24 @@
                 });
             }
 
-            // HORIZONTAL GALLERY: pinned horizontal scroll
+            // HORIZONTAL GALLERY: pinned horizontal scroll + đổi background theo item
+            const gallerySection = document.querySelector("#gallery");
             const galleryTrack = document.getElementById("gallery-track");
-            if (galleryTrack) {
-                const items = gsap.utils.toArray(".gallery-item");
-                const totalWidth = items.length * 110; // rough width percentage
 
-                gsap.to(galleryTrack, {
+            if (galleryTrack && gallerySection) {
+                const galleryBg = gallerySection.querySelector(".panel-bg");
+                const items = gsap.utils.toArray(".gallery-item");
+
+                // ✅ Set background ban đầu = item đầu tiên
+                if (galleryBg && items.length) {
+                    const firstBg =
+                        items[0].style.backgroundImage ||
+                        window.getComputedStyle(items[0]).backgroundImage;
+                    galleryBg.style.backgroundImage = firstBg;
+                }
+
+                // ✅ Tween chính để kéo ngang (pin section)
+                const galleryTween = gsap.to(galleryTrack, {
                     xPercent: -((items.length - 1) * 100),
                     ease: "none",
                     scrollTrigger: {
@@ -1541,6 +1810,26 @@
                         pin: true,
                         scrub: true
                     }
+                });
+
+                // Helper đổi background
+                function setGalleryBg(item) {
+                    if (!galleryBg) return;
+                    const bg =
+                        item.style.backgroundImage ||
+                        window.getComputedStyle(item).backgroundImage;
+                    galleryBg.style.backgroundImage = bg;
+                }
+
+                // ✅ Mỗi item có 1 ScrollTrigger riêng, gắn với galleryTween
+                items.forEach((item) => {
+                    ScrollTrigger.create({
+                        trigger: item,
+                        containerAnimation: galleryTween, // dùng tween ngang làm "container"
+                        start: "center center",           // khi item đi qua giữa viewport
+                        onEnter: () => setGalleryBg(item),
+                        onEnterBack: () => setGalleryBg(item)
+                    });
                 });
             }
 
