@@ -38,6 +38,7 @@
                     #9ca3af,
                     #6b7280);
             --charcoal-blue: #0f172a;
+            --charcoal-blue2: #173963;
             --accent-gold: #facc15;
             --accent-soft: #38bdf8;
             --white-milk: #f1f2f3;
@@ -406,8 +407,8 @@
             letter-spacing: 0.05em;
             margin: 0 0 1rem 0;
             color: var(--white-milk);
-
         }
+
 
         .panel-line {
             height: 3px;
@@ -438,6 +439,7 @@
             color: var(--white-milk);
 
         }
+
 
         .panel-subtitle.s1 {
             font-size: 1rem;
@@ -608,16 +610,6 @@
             margin-top: 0.4rem;
         }
 
-        /* Collection cards + Flip filter */
-        .collection-panel {
-            align-items: flex-start;
-            padding-top: 8rem;
-        }
-
-        .collection-header {
-            margin-bottom: 1.2rem;
-        }
-
         .filter-row {
             display: flex;
             gap: 0.7rem;
@@ -643,58 +635,321 @@
             border-color: var(--charcoal-blue);
         }
 
-        .collection-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1.5rem;
+        /* Collection cards + Flip filter */
+        #inox-featured-section {
+            background-color: #A8CAD5;
+            /* Màu nền của section */
+            color: #333;
+            line-height: 1.5;
+            padding: 60px 20px;
+            /* Khoảng cách trên dưới trái phải của section */
             width: 100%;
-            max-width: 900px;
+            box-sizing: border-box;
         }
 
-        .collection-card {
+        /* Wrapper để giới hạn chiều rộng nội dung */
+        #inox-featured-section .inox-section-content-wrapper {
+            max-width: 1500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Tiêu đề section */
+        #inox-featured-section .inox-section-title {
+            font-size: 32px;
+            font-weight: 500;
+            margin-bottom: 40px;
+            color: var(--white-milk);
+            text-align: left;
+        }
+
+        /* Grid Container */
+        #inox-featured-section .inox-grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* 2 cột bằng nhau */
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* --- CỘT TRÁI --- */
+        #inox-featured-section .inox-left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        #inox-featured-section .inox-article-item {
+            display: flex;
+            gap: 25px;
+        }
+
+        /* #inox-featured-section .inox-article-image-wrapper {
+            flex: 0 0 45%;
+        } */
+
+
+        #inox-featured-section .inox-article-image-wrapper img {
+            width: 300px;
+            height: 250px;
+            display: block;
+            border-radius: 4px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            /* Bo góc nhẹ cho ảnh */
+        }
+
+        #inox-featured-section .inox-article-content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             position: relative;
-            padding: 1.3rem 1.3rem 1.4rem 1.3rem;
-            border-radius: 1.4rem;
-            background: rgba(248, 250, 252, 0.9);
-            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.2);
+        }
+
+        #inox-featured-section .secondary-link {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 500;
+        }
+
+        #inox-featured-section .inox-article-title {
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 15px;
+            color: var(--charcoal-blue2);
+            line-height: 1.3;
+            margin-top: 0;
+        }
+
+        #inox-featured-section .inox-article-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* Nút đen */
+        #inox-featured-section .inox-btn-black {
+            background-color: transparent;
+
+            /* Thêm viền trắng */
+            border: 1px solid var(--charcoal-blue2);
+            /* Điều chỉnh độ dày viền tùy ý */
+
+            /* Đặt màu chữ là trắng để tương phản */
+            color: var(--charcoal-blue2);
+
+            /* Thêm một số style cơ bản để nút trông đẹp hơn (tùy chọn) */
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: fit-content;
+            border-radius: 7px;
+            /* Thêm hiệu ứng chuyển đổi mượt mà khi hover */
+        }
+
+
+        #inox-featured-section .inox-btn-black:hover {
+            background-color: var(--charcoal-blue2);
+            /* Khi hover, nền chuyển sang trắng */
+            color: var(--white-milk);
+            /* và chữ chuyển sang đen */
+        }
+
+        /* Vòng tròn placeholder */
+        /* #inox-featured-section .inox-circle-placeholder {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 50%;
+            position: absolute;
+            top: -40px;
+            right: 0;
+        } */
+
+        /* --- CỘT PHẢI --- */
+        #inox-featured-section .inox-right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Card Ảnh lớn */
+        #inox-featured-section .inox-large-feature-card {
+            position: relative;
+            height: 500px;
+            width: 740px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* THAY ẢNH BẾP CỦA BẠN TẠI ĐÂY */
+            background-image: url('./images/image-blog3.png');
+            display: flex;
+            align-items: flex-end;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        #inox-featured-section .inox-overlay-content {
+            padding: 40px;
+            width: 100%;
+            /* Gradient đen mờ ở dưới để dễ đọc chữ */
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        #inox-featured-section .inox-overlay-title {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 25px;
+            margin-top: 0;
+        }
+
+        /* Nút viền tròn */
+        #inox-featured-section .inox-btn-outline-rounded {
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 12px 30px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        #inox-featured-section .inox-btn-outline-rounded:hover {
+            background-color: #fff;
+            color: var(--charcoal-blue2);
+            border-color: #fff;
+        }
+
+        #inox-featured-section .inox-arrow-icon {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        /* Card Video */
+        #inox-featured-section .inox-video-card {
+            position: relative;
+            height: 220px;
+            background-color: #1a1a1a;
+            background-size: cover;
+            background-position: center;
+            /* THAY ẢNH THUMBNAIL VIDEO CỦA BẠN TẠI ĐÂY */
+            background-image: url('https://placehold.co/600x220/1a1a1a/333333?text=Video+Thumbnail');
+            display: flex;
+            align-items: flex-end;
+            color: #fff;
+            border-radius: 4px;
             overflow: hidden;
             cursor: pointer;
         }
 
-        .collection-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
+        #inox-featured-section .inox-video-card:hover .inox-play-icon-corner {
+            transform: scale(1.1);
         }
 
-        .collection-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.4rem;
+        #inox-featured-section .inox-video-overlay-content {
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+            width: 100%;
         }
 
-        .collection-meta {
-            font-size: 0.8rem;
-            color: #4b5563;
-            margin-bottom: 0.7rem;
+        #inox-featured-section .inox-video-overlay-content .secondary-link {
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .collection-price {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--charcoal-blue);
+        #inox-featured-section .inox-video-title {
+            font-size: 20px;
+            font-weight: 400;
+            margin: 0;
         }
 
-        .collection-photo {
-            right: -10%;
-            bottom: -10%;
-            border-radius: 10px;
-            margin: 10px;
-            width: 55%;
-            height: 50%;
-            filter: drop-shadow(0 20px 30px rgba(15, 23, 42, 0.5));
+        #inox-featured-section .inox-play-icon-corner {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            color: #fff;
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+            #inox-featured-section .inox-large-feature-card {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #inox-featured-section {
+                padding: 40px 15px;
+            }
+
+            #inox-featured-section .inox-section-title {
+                font-size: 26px;
+                margin-bottom: 30px;
+            }
+
+            #inox-featured-section .inox-grid-container {
+                grid-template-columns: 1fr;
+                /* Chuyển thành 1 cột */
+                gap: 20px;
+            }
+
+            #inox-featured-section .inox-article-item {
+                flex-direction: column;
+                /* Ảnh trên, chữ dưới */
+                gap: 15px;
+            }
+
+            #inox-featured-section .inox-article-image-wrapper {
+                width: 300px;
+                /* Ví dụ: Chiều rộng cố định là 300px */
+                height: 300px;
+                /* Ví dụ: Chiều cao cố định là 250px */
+
+                /* Tùy chọn: Thêm bo góc hoặc bóng để đẹp hơn */
+                border-radius: 8px;
+                overflow: hidden;
+                /* Ẩn phần ảnh thừa ra ngoài khung */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            #inox-featured-section .inox-article-content-wrapper {
+                padding-right: 0;
+            }
+
+            /* #inox-featured-section .inox-circle-placeholder {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 10px;
+            } */
+
+            #inox-featured-section .inox-large-feature-card {
+                height: 350px;
+            }
+
+            #inox-featured-section .inox-overlay-content,
+            #inox-featured-section .inox-video-overlay-content {
+                padding: 25px;
+            }
         }
 
         /* Horizontal gallery pinned */
@@ -865,9 +1120,6 @@
                 right: 4vw;
             }
 
-            .collection-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
         }
 
         @media (max-width: 768px) {
@@ -912,9 +1164,7 @@
                 margin: 1.8rem auto 0;
             }
 
-            .collection-grid {
-                grid-template-columns: minmax(0, 1fr);
-            }
+
 
             .contact-form {
                 grid-template-columns: minmax(0, 1fr);
@@ -1030,8 +1280,11 @@
                         </p>
                         <div class="tag-row tag-row-s1">
                             <span class="tag">Inox 304</span>
+
                             <span class="tag">Đáy từ đa lớp</span>
+
                             <span class="tag">Hiệu suất bắt từ 98%</span>
+
                         </div>
                         <button class="cta btn-s1">Khám phá bộ nồi chảo</button>
                     </div>
@@ -1040,7 +1293,6 @@
                 <!-- INOX MATERIAL PANEL + stats (ScrambleText) -->
                 <section id="inox" class="panel">
                     <div class="panel-bg" style="background-image: url('./images/'); background-color: #6EA6B9;"></div>
-
                     <!-- layout 2 cột -->
                     <div class="inox-layout">
                         <!-- Cột trái: text + stats -->
@@ -1061,13 +1313,12 @@
                                 </div>
                                 <div class="stat-card">
                                     <div class="stat-number" id="stat-warranty">03</div>
-                                    <div class="stat-label">Thân thiện hơn inox thông thường khác </div>
+                                    <div class="stat-label">Vượt trội hơn inox thông thường </div>
                                 </div>
+
                             </div>
                         </div>
-
                         <!-- Cột phải: card hình -->
-
                     </div>
                     <div class="inox-card">
                         <img src="./images/structure6.png" alt="Cấu trúc đáy 3 lớp inox 304 - lõi nhôm - 430"
@@ -1076,77 +1327,62 @@
                 </section>
 
                 <!-- COLLECTION PANEL with Flip filters -->
-                <section id="collections" class="panel collection-panel">
-                    <div class="panel-bg" style="background-image: url(); background-color: #8BB8C7;"></div>
-                    <div class="panel-inner collection-header">
-                        <h1 class="panel-title" style="color: #FFF5EB">Bộ sản phẩm nổi bật</h1>
-                        <p class="panel-subtitle" style="color: #FFF5EB">
-                            Từ bộ nồi inox đa tầng, chảo chống dính đáy từ đến nồi gang tráng men –
-                            tất cả đều tối ưu cho bếp gia đình hiện đại.
-                        </p>
-                        <div class="filter-row" id="collection-filters">
-                            <div class="filter-pill active" data-filter="all">Tất cả</div>
-                            <div class="filter-pill" data-filter="pot">Nồi inox</div>
-                            <div class="filter-pill" data-filter="pan">Chảo</div>
-                            <div class="filter-pill" data-filter="cast">Nồi gang</div>
+                <section id="inox-featured-section">
+                    <div class="inox-section-content-wrapper">
+                        <h2 class="inox-section-title">Đồ Gia Dụng Inox Cao Cấp</h2>
+
+                        <div class="inox-grid-container">
+                            <div class="inox-left-column">
+                                <article class="inox-article-item">
+                                    <div class="inox-article-image-wrapper">
+                                        <img src="./images/image-blog2.png" alt="Bộ nồi inox 3 lớp" loading="lazy">
+                                    </div>
+                                    <div class="inox-article-content-wrapper">
+                                        <a href="/blog"></a>
+                                        <h3 class="inox-article-title">Ưu Điểm Vượt Trội Của Nồi Inox 3 Lớp</h3>
+                                        <p class="inox-article-description">Dẫn đầu dẫn nhiệt và vẻ bề ngoài được diễn
+                                            tả một cách chân
+                                            thực nhất. Nhiệt tản đều giúp món ăn chín đều và ngon hơn.</p>
+                                        <button class="inox-btn-black js-inox-btn-action" data-item="Nồi Inox 3 Lớp">ĐỌC
+                                            THÊM</button>
+                                    </div>
+                                </article>
+
+                                <article class="inox-article-item">
+                                    <div class="inox-article-image-wrapper">
+                                        <img src="./images/image-blog1.png" alt="Bộ thau rổ inox" loading="lazy">
+                                    </div>
+                                    <div class="inox-article-content-wrapper">
+                                        <!-- <div class="inox-circle-placeholder"></div> -->
+                                        <h3 class="inox-article-title">Mẹo Bảo Quản Dụng Cụ Bếp Inox</h3>
+                                        <p class="inox-article-description">Đừng lo lắng nếu nồi chảo inox của bạn bị ố
+                                            vàng hay cháy khét. Chúng tôi sẽ chia sẻ những mẹo nhỏ sử dụng nguyên liệu
+                                            tự nhiên sẵn có trong bếp để trả lại vẻ sáng bóng ban đầu cho chúng.</p>
+                                        <button class="inox-btn-black js-inox-btn-action" data-item="Mẹo Bảo Quản">ĐỌC
+                                            THÊM</button>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <div class="inox-right-column">
+                                <div class="inox-large-feature-card">
+                                    <div class="inox-overlay-content">
+                                        <h3 class="inox-overlay-title">Không Gian Bếp Hiện Đại Với Inox</h3>
+                                        <button class="inox-btn-outline-rounded js-inox-btn-explore">
+                                            KHÁM PHÁ THÊM <span class="inox-arrow-icon">→</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="inox-video-card js-video-trigger" data-video-id="w7nmJj5qQcQ">
+
+                                    <div class="inox-video-overlay-content">
+                                        <h3 class="inox-video-title">Hướng Dẫn: Kỹ Thuật Chống Dính Cho Chảo Inox</h3>
+                                    </div>
+                                    <div class="inox-play-icon-corner">▶</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="collection-grid" id="collection-grid">
-                        <!-- card 1 -->
-                        <article class="collection-card" data-type="pot" style="background-color: #FFF5EB">
-                            <div class="collection-tag">Nồi Inox 5 đáy</div>
-                            <div class="collection-title">Bộ nồi Inox INP-1001</div>
-                            <div>
-                                <img class="collection-photo" src="./images/inp1001.jpg" alt="Aurora Pot">
-
-                            </div>
-                            <!-- <div class="collection-meta">Thân dày 0.5mm - chất liệu inox 304 cao cấp
-                                Nắp kính dày 3.5mm, quan sát dễ - giữ nhiệt/giữ hơi cho món ngon hơn
-                                Tay quai cách nhiệt an toàn khi sử dụng
-                                Đánh bóng gương mặt trong/ngoài để dễ vệ sinh, phù hợp bày ở không gian bếp
-                                Vạch đo mực nước bên trong nồi giúp định lượng nhanh
-                            </div> -->
-                            <div class="collection-price">Từ 1.290.000đ</div>
-                        </article>
-
-                        <!-- card 2 -->
-                        <article class="collection-card" data-type="pan" style="background-color: #FFF5EB">
-                            <div class="collection-tag">Chảo gang chống dính</div>
-                            <div class="collection-title">Chảo gang INP-3201</div>
-                            <div>
-                                <img class="collection-photo" src="./images/INP3201.png" alt="SearPro Frypan">
-
-                            </div>
-                            <!-- <div class="collection-meta">
-                                "Chất liệu gang đúc cao cấp dày dặn
-                                Vỏ ngoài men bóng đỏ chuyển sắc, bền màu và chống ố bám tốt hơn
-                                Lòng chảo men bóng đen xám
-                                Bảo tồn nhiệt lượng tốt, sau khi tắt bếp, nhiệt còn lại tiếp tục làm chín nhẹ nhàng,
-                                giúp mềm bên trong - giòn mặt
-                                ngoài. Phù hợp làm beefsteak, trứng, pancake, rau củ áp chảo"
-
-                            </div> -->
-                            <div class="collection-price">Từ 890.000đ</div>
-                        </article>
-                        <!-- card 3 -->
-                        <article class="collection-card" data-type="cast" style="background-color: #FFF5EB">
-                            <div class="collection-tag">Nồi gang tráng men</div>
-                            <div class="collection-title">Nồi gang INP-3001</div>
-                            <div>
-                                <img class="collection-photo" src="./images/INP3001.png" alt="CastGlow Dutch Oven">
-
-                            </div>
-                            <!-- <div class="collection-meta">
-                                "Chất liệu gang đúc cao cấp dày dặn
-                                Vỏ ngoài men bóng đỏ chuyển sắc, bền màu và chống ố bám tốt hơn
-                                Lòng nồi men bóng be
-                                Bảo tồn nhiệt lượng tốt, sau khi tắt bếp, nhiệt còn lại tiếp tục làm chín nhẹ nhàng,
-                                giúp mềm bên trong - giòn mặt
-                                ngoài. Phù hợp cho món ninh, hầm, soup, om/quay lượng nhiều."
-
-                            </div> -->
-                            <div class="collection-price">Từ 1.590.000đ</div>
-                        </article>
                     </div>
                 </section>
                 <!-- HORIZONTAL GALLERY (pinned, ScrollTrigger + horizontal transform) -->
@@ -1735,53 +1971,9 @@
 
 
             // COLLECTION FILTERS: Flip plugin
-            const filterRow = document.getElementById("collection-filters");
-            const collectionGrid = document.getElementById("collection-grid");
 
-            if (filterRow && collectionGrid) {
-                filterRow.addEventListener("click", (e) => {
-                    const pill = e.target.closest(".filter-pill");
-                    if (!pill) return;
 
-                    const filter = pill.getAttribute("data-filter");
 
-                    // active pill style
-                    filterRow.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
-                    pill.classList.add("active");
-
-                    const cards = gsap.utils.toArray(".collection-card");
-                    const state = Flip.getState(cards);
-
-                    cards.forEach(card => {
-                        const type = card.getAttribute("data-type");
-                        if (filter === "all" || type === filter) {
-                            card.style.display = "";
-                        } else {
-                            card.style.display = "none";
-                        }
-                    });
-
-                    Flip.from(state, {
-                        duration: 0.6,
-                        ease: "power2.inOut",
-                        absolute: true,
-                        stagger: 0.06
-                    });
-                });
-
-                // Reveal cards on scroll with ScrollTrigger
-                gsap.from(".collection-card", {
-                    scrollTrigger: {
-                        trigger: "#collections",
-                        start: "top 65%"
-                    },
-                    y: 40,
-                    opacity: 0,
-                    duration: 0.8,
-                    stagger: 0.1,
-                    ease: "power3.out"
-                });
-            }
 
             // HORIZONTAL GALLERY: pinned horizontal scroll + đổi background theo item
             const gallerySection = document.querySelector("#gallery");
@@ -1880,6 +2072,35 @@
                             ease: "power1.inOut"
                         }
                     );
+                });
+
+                // Tìm tất cả các phần tử có class 'js-video-trigger'
+                const videoTriggers = document.querySelectorAll('.js-video-trigger');
+
+                videoTriggers.forEach(trigger => {
+                    trigger.addEventListener('click', function (e) {
+                        e.preventDefault(); // Ngăn chặn hành vi mặc định nếu có
+
+                        // 1. Lấy YouTube Video ID từ thuộc tính data
+                        const videoId = this.getAttribute('data-video-id');
+
+                        // Nếu không có ID thì dừng lại
+                        if (!videoId) return;
+
+                        // 2. Tạo mã HTML cho iframe YouTube
+                        // ?autoplay=1: Tự động phát khi xuất hiện
+                        // &rel=0: Không hiển thị video liên quan từ kênh khác khi kết thúc
+                        const iframeHTML = `
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/c03zAnWdqSY?si=UuT8uErIPI63rpTv"
+                 title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            `;
+
+                        // 3. Thay thế toàn bộ nội dung bên trong card bằng iframe
+                        this.innerHTML = iframeHTML;
+
+                        // 4. (Tùy chọn) Loại bỏ class trigger để không xử lý click lần 2
+                        this.classList.remove('js-video-trigger');
+                    });
                 });
             });
 
