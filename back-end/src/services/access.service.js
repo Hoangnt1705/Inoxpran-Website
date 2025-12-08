@@ -3,11 +3,12 @@
 const shopModel = require("../models/shop.model");
 const bcrypt = require('bcrypt');
 const crypto = require('node:crypto');
-const { createTokenPair } = require('../auth/authUtils');
+const { createTokenPair, verifyJWT } = require('../auth/authUtils');
 const KeyTokenService = require('./keyToken.service');
 const { getInfoData } = require("../utils/index");
-const { ConflictRequestError, BadRequestError, AuthFailureError } = require("../core/error.response");
+const { ConflictRequestError, BadRequestError, AuthFailureError, ForbiddenError } = require("../core/error.response");
 const { findByEmail } = require("./shop.service");
+
 const RoleShop = {
     SHOP: 'SHOP',
     WRITER: 'WRITER',
@@ -16,6 +17,89 @@ const RoleShop = {
 }
 
 class AccessService {
+
+
+    static handlerRereshTokenV2 = async ({ keyStore, user, refreshToken }) => {
+        const { userId, email } = user;
+
+        if (keyStore.refreshTokensUsed.includes(refreshToken)) {
+            await KeyTokenService.deleteKeyById(userId);
+            throw new ForbiddenError(' Something warrning happend !! Pls relogin')
+        }
+        //
+        if(keyStore.refreshToken !== refreshToken) throw new AuthFailureError('Shop not registered1');
+        
+        const foundShop = await findByEmail({ email });
+        if (!foundShop) throw new AuthFailureError('Shop not registered2');
+        
+        // create 1 cap moi
+        const tokens = await createTokenPair({ userId, email }, holderToken.publicKey, holderToken.privateKey);
+
+        //update token
+        await keyStore.updateOne({
+            $set: {
+                refreshToken: tokens.refreshToken
+            },
+            $addToSet: {
+                refreshTokensUsed: refreshToken
+            }
+        });
+        holderToken.save();
+        return {
+            user: { userId, email },
+            tokens
+        }
+    }
+    /*
+    check this token used?
+    */
+
+    static handlerRereshToken = async (refreshToken) => {
+        // check xem ttoken nay da dc su dung chua
+        const foundToken = await KeyTokenService.findByRefreshTokenUsed(refreshToken);
+                console.log('....<<<<<>>>>>>', foundToken);
+
+        if (foundToken) {
+            // decode xem thang nay la thang nao?
+            const { userId, email } = await verifyJWT(refreshToken, foundToken.privateKey);
+            console.log({ userId, email }, 'decode refreshToken');
+            // xoa tat ca token trong keyStore 
+            await KeyTokenService.deleteKeyById(userId);
+            throw new ForbiddenError(' Something warrning happend !! Pls relogin')
+        }
+
+        // NO, qua ngon
+        const holderToken = await KeyTokenService.findByRefreshToken(refreshToken);
+        if (!holderToken) throw new AuthFailureError('Shop not registered1');
+
+        // verifyToken
+        const { userId, email } = await verifyJWT(refreshToken, holderToken.privateKey);
+        console.log('[2] --', {userId, email});
+        
+        // check UserId
+        const foundShop = await findByEmail({ email });
+        if (!foundShop) throw new AuthFailureError('Shop not registered2');
+        
+        // create 1 cap moi
+        const tokens = await createTokenPair({ userId, email }, holderToken.publicKey, holderToken.privateKey);
+
+        //update token
+        await holderToken.updateOne({
+            $set: {
+                refreshToken: tokens.refreshToken
+            },
+            $addToSet: {
+                refreshTokensUsed: refreshToken
+            }
+        });
+        holderToken.save();
+        return {
+            user: { userId, email },
+            tokens
+        }
+    }
+    
+
     static logout = async ( keyStore ) => {
         const delKey = await KeyTokenService.removeKeyById(keyStore._id);
         console.log(delKey);
@@ -74,7 +158,6 @@ class AccessService {
             });
             console.log(newShop, '>>>>>>>>>>>>>>>>>>>>>>');
 
-
             if (newShop) {
                 // created privateKey, publicKey
                 const privateKey = crypto.randomBytes(64).toString('hex')
@@ -98,7 +181,6 @@ class AccessService {
                 }
                 
                 //created token pair
-
                 const tokens = await createTokenPair({ userId: newShop._id, email }, publicKey, privateKey)
                 console.log(`Created Token Success::`, tokens);
 

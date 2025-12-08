@@ -44,7 +44,11 @@
 
     .top-bar .container {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
+    }
+
+    .title-topbar {
+        margin-right: 200px;
     }
 
     .top-links a {
@@ -188,13 +192,29 @@
 
     .badge {
         position: absolute;
-        top: -4px;
-        right: -4px;
+        top: 0px;
+        right: 0px;
+
         background: var(--price-red);
         color: #fff;
-        font-size: 10px;
+        font-size: 13px;
+        padding: 5px 10px;
+        width: 50px;
+        border-bottom-left-radius: 20px;
+        border-top-right-radius: 7px;
+    }
+
+    .badge-cart {
+        position: absolute;
+        top: -6px;
+        right: -2px;
+
+        background: var(--price-red);
+        color: #fff;
+        font-size: 11px;
         padding: 2px 6px;
-        border-radius: 999px;
+        border-radius: 10px;
+
     }
 
     /* === CATEGORY ICONS === */
@@ -370,18 +390,29 @@
         position: relative;
         text-align: center;
         border-radius: 8px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    /* Hover giống fs-product-small */
+    .deal-hero:hover {
+        border-color: #40c4ff;
+        box-shadow: 0 0 0 1px rgba(64, 196, 255, 0.2),
+            0 4px 12px rgba(0, 0, 0, 0.06);
+        transform: translateY(-2px);
+        cursor: pointer;
     }
 
     .discount-tag {
         position: absolute;
-        top: 15px;
-        left: 15px;
+        top: 0;
+        right: 0;
         background: var(--price-red);
         color: #fff;
         padding: 5px 10px;
-        border-radius: 4px;
         font-weight: bold;
         font-size: 14px;
+        border-bottom-left-radius: 20px;
+        border-top-right-radius: 7px;
     }
 
     .deal-hero img {
@@ -445,34 +476,55 @@
 
     .fs-product-small {
         border: 1px solid #eee;
-        padding: 10px;
+        padding: 14px;
+        /* 10px → 14px cho thoáng hơn */
         border-radius: 8px;
         position: relative;
         text-align: center;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
     }
 
-    .fs-product-small .badge {
-        top: 5px;
-        right: 5px;
+    .fs-product-small:hover {
+        border-color: #40c4ff;
+        box-shadow: 0 0 0 1px rgba(64, 196, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.06);
+        transform: translateY(-2px);
+        cursor: pointer;
     }
 
     .fs-product-small img {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        /* 80px → 100px */
+        height: 100px;
+        /* 80px → 100px */
         object-fit: contain;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
     }
 
     .fs-product-small h4 {
-        font-size: 13px;
-        margin-bottom: 5px;
-        height: 32px;
+        font-size: 14px;
+        /* 13px → 14px */
+        margin-bottom: 6px;
+        /* 5px → 6px */
+        height: 38px;
+        /* tăng nhẹ chiều cao */
         overflow: hidden;
     }
 
+    /* GIÁ CŨ */
+    .fs-product-small .old-price {
+        font-size: 13px;
+        /* 12px → 13px */
+        color: #999;
+        text-decoration: line-through;
+        margin-bottom: 3px;
+    }
+
+    /* GIÁ MỚI */
     .fs-product-small .price {
         color: var(--price-red);
         font-weight: 700;
+        font-size: 17px;
+        /* 16px → 17px */
     }
 
     /* === BANNERS === */
@@ -529,93 +581,106 @@
         color: #666;
     }
 
+    .product-section {
+        padding: 0 0 40px;
+        margin: 40px 0;
+        /* background: #f5f5f5; */
+        /* nền xám nhạt giống Shopee */
+    }
+
+    /* Thanh headline khuyến mãi */
+    .promo-header-bar {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #555;
+        margin-bottom: 16px;
+    }
+
+    /* GRID SẢN PHẨM – giống Shopee: card rời, không viền chung */
     .product-grid-5 {
         display: grid;
-        /* Chia làm 5 cột bằng nhau */
-        grid-template-columns: repeat(5, 1fr);
-        /* Chia làm 2 hàng, mỗi hàng cao tối thiểu 140px */
-        grid-template-rows: repeat(2, minmax(140px, auto));
-
-        /* Tạo viền xanh bao quanh toàn bộ bảng */
-        border: 1px solid #E4E5EE;
-        border-radius: 5px;
-        /* Tạo khoảng hở 1px để làm đường kẻ ngăn cách các ô */
-        gap: 1px;
-        /* Màu của đường kẻ ngăn cách */
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 8px;
+        /* khoảng cách giữa các card */
     }
 
-    /* --- Ô SẢN PHẨM --- */
+    /* CARD SẢN PHẨM */
     .product-card {
-        background-color: #fff;
-        /* Nền trắng để che nền xám, chỉ chừa lại khe hở 1px */
-        padding: 20px;
-        /* Tăng khoảng cách đệm để sản phẩm thoáng hơn trong khung */
+        background-color: #ffffff;
+        border-radius: 2px;
+        border: 1px solid #f2f2f2;
+        /* viền mỏng */
+        padding: 10px;
+        cursor: pointer;
         position: relative;
-        text-align: left;
-        /* Căn trái nội dung */
-        transition: 0.3s;
+        display: flex;
+        flex-direction: column;
         height: 100%;
-        /* Để các ô cao bằng nhau */
+        transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
     }
 
-    /* Hiệu ứng khi di chuột vào ô sản phẩm */
     .product-card:hover {
-        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
-        /* Hiệu ứng bóng phía trong */
-        z-index: 1;
+        border-color: var(--accent-cyan);
+        /* cam Shopee */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
     }
 
-    /* --- CÁC PHẦN CON TRONG CARD (Giữ nguyên style đẹp cũ) --- */
+    /* ẢNH SẢN PHẨM – kiểu ô vuông như Shopee */
     .product-card img {
         width: 100%;
-        height: 180px;
-        /* Cố định chiều cao ảnh */
+        aspect-ratio: 1 / 1;
+        /* ô vuông */
         object-fit: contain;
-        margin-bottom: 15px;
-        transition: 0.3s;
+        margin-bottom: 8px;
+        display: block;
     }
 
-    .product-card:hover img {
-        transform: scale(1.05);
-        /* Phóng to ảnh nhẹ khi hover */
-    }
-
+    /* TÊN SẢN PHẨM */
     .p-details h4 {
-        font-size: 14px;
-        font-weight: 700;
+        font-size: 13px;
+        font-weight: 500;
         color: #333;
-        margin-bottom: 5px;
-        height: 40px;
-        /* Cố định chiều cao tên để khung không bị lệch */
+        margin: 0 0 6px;
+        line-height: 1.4;
+        height: 36px;
+        /* 2 dòng */
         overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
     }
 
-    .p-details .brand {
+    /* BRAND (nếu dùng) */
+    .p-details .old-price {
         font-size: 12px;
         color: #999;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
+        text-decoration: line-through;
+        /* gạch ngang giá cũ */
     }
 
+    /* GIÁ – đỏ như Shopee */
     .p-details .price {
-        font-size: 16px;
-        font-weight: 700;
-        color: #d32f2f;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--accent-cyan);
     }
 
-    /* Tag (Nhãn New/Sale) */
+    /* TAG GÓC TRÊN (New / Sale) */
     .tag {
         position: absolute;
-        top: 0;
-        left: 0;
-        padding: 4px 10px;
-        font-size: 11px;
+        top: 6px;
+        right: 6px;
+        padding: 2px 8px;
+        font-size: 10px;
         font-weight: 600;
         color: #fff;
-        z-index: 2;
         text-transform: uppercase;
+        border-radius: 2px;
+        z-index: 2;
     }
 
     .tag.blue {
@@ -623,7 +688,60 @@
     }
 
     .tag.red {
-        background-color: #d32f2f;
+        background-color: var(--accent-cyan);
+    }
+
+    /* NÚT XEM TẤT CẢ */
+    .view-more-container {
+        margin-top: 18px;
+        text-align: center;
+    }
+
+    .view-more-btn {
+        padding: 10px 24px;
+        border-radius: 2px;
+        border: 1px solid var(--accent-cyan);
+        background: #fff;
+        color: var(--accent-cyan);
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .view-more-btn:hover {
+        background: #29b6f6;
+        color: #fff;
+    }
+
+    /* =========================
+       RESPONSIVE – THU BỚT CỘT
+    ========================= */
+
+    @media (max-width: 1200px) {
+        .product-grid-5 {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 992px) {
+        .product-grid-5 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .product-grid-5 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 480px) {
+        .product-grid-5 {
+            grid-template-columns: 1fr;
+        }
     }
 
     /* --- RESPONSIVE --- */
@@ -649,7 +767,7 @@
         text-align: center;
         font-weight: 700;
         padding: 15px;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         border-radius: 4px;
         letter-spacing: 1px;
     }
@@ -833,9 +951,10 @@
     }
 
     /* 7.1 Newsletter area */
-    .news-home{
+    .news-home {
         padding-bottom: 100px;
     }
+
     .newsletter-area {
         background-color: var(--primary-blue);
         color: #fff;
@@ -941,6 +1060,8 @@
         justify-content: flex-end;
         align-items: center;
     }
+
+
 
     .newsletter-image img {
         max-width: 100%;

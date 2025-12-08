@@ -6,21 +6,24 @@ const HEADER = {
 }
 
 const { findById } = require('../services/apiKey.service')
+
 const apiKey = async (req, res, next) => {
     try {
         const key = req.headers[HEADER.API_KEY]?.toString();
+        console.log('đây nè', key);
         if (!key) {
             return res.status(403).json({
-                message: 'Forbidden Error'
+                message: 'Forbidden Error1'
             })
         }
         // check objKey
         const objKey = await findById(key);
         if (!objKey) {
             return res.status(403).json({
-                message: 'Forbidden Error'
+                message: 'Forbidden Error2'
             })
         }
+
         req.objKey = objKey;
         return next();
 
